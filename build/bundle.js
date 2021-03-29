@@ -1643,7 +1643,7 @@ var app = (function () {
 
     const file = "src\\App.svelte";
 
-    // (199:1) {:else}
+    // (202:1) {:else}
     function create_else_block(ctx) {
     	let a;
     	let t;
@@ -1654,7 +1654,7 @@ var app = (function () {
     			t = text("Login with Imgur");
     			attr_dev(a, "href", /*imgurUrl*/ ctx[3]);
     			attr_dev(a, "rel", "noreferrer");
-    			add_location(a, file, 199, 2, 5647);
+    			add_location(a, file, 202, 2, 5768);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a, anchor);
@@ -1676,14 +1676,14 @@ var app = (function () {
     		block,
     		id: create_else_block.name,
     		type: "else",
-    		source: "(199:1) {:else}",
+    		source: "(202:1) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (178:1) {#if parsed.access_token != undefined}
+    // (181:1) {#if parsed.access_token != undefined}
     function create_if_block(ctx) {
     	let p0;
     	let t1;
@@ -1717,8 +1717,7 @@ var app = (function () {
     			props: {
     				gap: "10",
     				onclickEvent: /*imageClicked*/ ctx[2],
-    				imageClass: "imgurImage",
-    				id: "imageGallery"
+    				imageClass: "imgurImage"
     			},
     			$$inline: true
     		});
@@ -1756,39 +1755,39 @@ var app = (function () {
     			t15 = space();
     			create_component(gallery.$$.fragment);
     			attr_dev(p0, "id", "imageCountInfo");
-    			add_location(p0, file, 178, 2, 4879);
+    			add_location(p0, file, 181, 2, 5018);
     			attr_dev(button0, "id", "selectAllButton");
-    			add_location(button0, file, 179, 2, 4928);
-    			add_location(p1, file, 182, 3, 5031);
+    			add_location(button0, file, 182, 2, 5067);
+    			add_location(p1, file, 185, 3, 5170);
     			attr_dev(input0, "type", "radio");
     			attr_dev(input0, "id", "localhost");
     			attr_dev(input0, "name", "uploadTarget");
     			input0.value = "localhost";
     			input0.checked = true;
-    			add_location(input0, file, 184, 4, 5064);
+    			add_location(input0, file, 187, 4, 5203);
     			attr_dev(label0, "for", "localhost");
-    			add_location(label0, file, 185, 4, 5151);
+    			add_location(label0, file, 188, 4, 5290);
     			attr_dev(input1, "type", "text");
     			attr_dev(input1, "id", "localhostPort");
     			input1.value = "8080";
-    			add_location(input1, file, 186, 4, 5198);
-    			add_location(div0, file, 183, 3, 5053);
+    			add_location(input1, file, 189, 4, 5337);
+    			add_location(div0, file, 186, 3, 5192);
     			attr_dev(input2, "type", "radio");
     			attr_dev(input2, "id", "api");
     			attr_dev(input2, "name", "uploadTarget");
     			input2.value = "api";
-    			add_location(input2, file, 189, 4, 5276);
+    			add_location(input2, file, 192, 4, 5415);
     			attr_dev(label1, "for", "api");
-    			add_location(label1, file, 190, 4, 5343);
+    			add_location(label1, file, 193, 4, 5482);
     			attr_dev(input3, "type", "text");
     			attr_dev(input3, "id", "apiUrl");
-    			add_location(input3, file, 191, 4, 5385);
-    			add_location(div1, file, 188, 3, 5265);
+    			add_location(input3, file, 194, 4, 5524);
+    			add_location(div1, file, 191, 3, 5404);
     			attr_dev(button1, "id", "uploadButton");
     			set_style(button1, "display", "none");
-    			add_location(button1, file, 193, 3, 5432);
+    			add_location(button1, file, 196, 3, 5571);
     			attr_dev(div2, "id", "uploadTool");
-    			add_location(div2, file, 181, 2, 5005);
+    			add_location(div2, file, 184, 2, 5144);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, p0, anchor);
@@ -1819,8 +1818,8 @@ var app = (function () {
 
     			if (!mounted) {
     				dispose = [
-    					listen_dev(button0, "click", /*toggleAll*/ ctx[4], false, false, false),
-    					listen_dev(button1, "click", upload, false, false, false)
+    					listen_dev(button0, "click", /*toggleAll*/ ctx[5], false, false, false),
+    					listen_dev(button1, "click", /*upload*/ ctx[4], false, false, false)
     				];
 
     				mounted = true;
@@ -1853,7 +1852,7 @@ var app = (function () {
     		block,
     		id: create_if_block.name,
     		type: "if",
-    		source: "(178:1) {#if parsed.access_token != undefined}",
+    		source: "(181:1) {#if parsed.access_token != undefined}",
     		ctx
     	});
 
@@ -1891,9 +1890,9 @@ var app = (function () {
     			t3 = space();
     			if_block.c();
     			attr_dev(h1, "class", "svelte-1n265be");
-    			add_location(h1, file, 176, 1, 4812);
+    			add_location(h1, file, 179, 1, 4951);
     			attr_dev(main, "class", "svelte-1n265be");
-    			add_location(main, file, 175, 0, 4803);
+    			add_location(main, file, 178, 0, 4942);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1987,10 +1986,6 @@ var app = (function () {
     	return arr;
     }
 
-    function upload() {
-    	
-    }
-
     function getAllImages() {
     	return document.getElementsByClassName("imgurImage");
     }
@@ -2015,10 +2010,18 @@ var app = (function () {
     	let accessToken = null;
 
     	selectedImagesStore.subscribe(value => {
-    		$$invalidate(5, selectedImages = value);
+    		$$invalidate(6, selectedImages = value);
     	});
 
     	selectedImages = [];
+
+    	function upload() {
+    		let selectedURLs = [];
+
+    		for (let i = 0; i < selectedImages.length; i++) {
+    			selectedURLs.push(getOriginalURL(selectedImages[i].src));
+    		}
+    	}
 
     	function updateCounter() {
     		let allImages = getAllImages();
@@ -2133,7 +2136,7 @@ var app = (function () {
     		}
 
     		console.log("1");
-    		document.getElementById("imageGallery").textContent = getImages(imageURLs);
+    		document.getElementById("gallery").textContent = getImages(imageURLs);
     		console.log(resJson);
     		return resJson;
     	});
@@ -2147,8 +2150,8 @@ var app = (function () {
 
     	$$self.$$set = $$props => {
     		if ("name" in $$props) $$invalidate(1, name = $$props.name);
-    		if ("selectedImages" in $$props) $$invalidate(5, selectedImages = $$props.selectedImages);
-    		if ("imageURLs" in $$props) $$invalidate(6, imageURLs = $$props.imageURLs);
+    		if ("selectedImages" in $$props) $$invalidate(6, selectedImages = $$props.selectedImages);
+    		if ("imageURLs" in $$props) $$invalidate(7, imageURLs = $$props.imageURLs);
     		if ("parsed" in $$props) $$invalidate(0, parsed = $$props.parsed);
     		if ("imgurUrl" in $$props) $$invalidate(3, imgurUrl = $$props.imgurUrl);
     	};
@@ -2183,8 +2186,8 @@ var app = (function () {
 
     	$$self.$inject_state = $$props => {
     		if ("name" in $$props) $$invalidate(1, name = $$props.name);
-    		if ("selectedImages" in $$props) $$invalidate(5, selectedImages = $$props.selectedImages);
-    		if ("imageURLs" in $$props) $$invalidate(6, imageURLs = $$props.imageURLs);
+    		if ("selectedImages" in $$props) $$invalidate(6, selectedImages = $$props.selectedImages);
+    		if ("imageURLs" in $$props) $$invalidate(7, imageURLs = $$props.imageURLs);
     		if ("accessToken" in $$props) accessToken = $$props.accessToken;
     		if ("parsed" in $$props) $$invalidate(0, parsed = $$props.parsed);
     		if ("clientID" in $$props) clientID = $$props.clientID;
@@ -2195,7 +2198,16 @@ var app = (function () {
     		$$self.$inject_state($$props.$$inject);
     	}
 
-    	return [parsed, name, imageClicked, imgurUrl, toggleAll, selectedImages, imageURLs];
+    	return [
+    		parsed,
+    		name,
+    		imageClicked,
+    		imgurUrl,
+    		upload,
+    		toggleAll,
+    		selectedImages,
+    		imageURLs
+    	];
     }
 
     class App extends SvelteComponentDev {
@@ -2204,8 +2216,8 @@ var app = (function () {
 
     		init(this, options, instance, create_fragment, safe_not_equal, {
     			name: 1,
-    			selectedImages: 5,
-    			imageURLs: 6,
+    			selectedImages: 6,
+    			imageURLs: 7,
     			imageClicked: 2,
     			parsed: 0,
     			imgurUrl: 3
