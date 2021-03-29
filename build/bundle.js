@@ -2129,7 +2129,7 @@ var app = (function () {
     	}).then(function (res) {
     		return res.json();
     	}).then(function (resJson) {
-    		console.log("1");
+    		console.log("2");
     		let data = resJson.data;
 
     		for (let i = 0; i < data.length; i++) {
