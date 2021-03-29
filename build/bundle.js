@@ -1654,7 +1654,7 @@ var app = (function () {
     			t = text("Login with Imgur");
     			attr_dev(a, "href", /*imgurUrl*/ ctx[3]);
     			attr_dev(a, "rel", "noreferrer");
-    			add_location(a, file, 191, 2, 5360);
+    			add_location(a, file, 191, 2, 5364);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a, anchor);
@@ -1756,39 +1756,39 @@ var app = (function () {
     			t15 = space();
     			create_component(gallery.$$.fragment);
     			attr_dev(p0, "id", "imageCountInfo");
-    			add_location(p0, file, 170, 2, 4592);
+    			add_location(p0, file, 170, 2, 4596);
     			attr_dev(button0, "id", "selectAllButton");
-    			add_location(button0, file, 171, 2, 4641);
-    			add_location(p1, file, 174, 3, 4744);
+    			add_location(button0, file, 171, 2, 4645);
+    			add_location(p1, file, 174, 3, 4748);
     			attr_dev(input0, "type", "radio");
     			attr_dev(input0, "id", "localhost");
     			attr_dev(input0, "name", "uploadTarget");
     			input0.value = "localhost";
     			input0.checked = true;
-    			add_location(input0, file, 176, 4, 4777);
+    			add_location(input0, file, 176, 4, 4781);
     			attr_dev(label0, "for", "localhost");
-    			add_location(label0, file, 177, 4, 4864);
+    			add_location(label0, file, 177, 4, 4868);
     			attr_dev(input1, "type", "text");
     			attr_dev(input1, "id", "localhostPort");
     			input1.value = "8080";
-    			add_location(input1, file, 178, 4, 4911);
-    			add_location(div0, file, 175, 3, 4766);
+    			add_location(input1, file, 178, 4, 4915);
+    			add_location(div0, file, 175, 3, 4770);
     			attr_dev(input2, "type", "radio");
     			attr_dev(input2, "id", "api");
     			attr_dev(input2, "name", "uploadTarget");
     			input2.value = "api";
-    			add_location(input2, file, 181, 4, 4989);
+    			add_location(input2, file, 181, 4, 4993);
     			attr_dev(label1, "for", "api");
-    			add_location(label1, file, 182, 4, 5056);
+    			add_location(label1, file, 182, 4, 5060);
     			attr_dev(input3, "type", "text");
     			attr_dev(input3, "id", "apiUrl");
-    			add_location(input3, file, 183, 4, 5098);
-    			add_location(div1, file, 180, 3, 4978);
+    			add_location(input3, file, 183, 4, 5102);
+    			add_location(div1, file, 180, 3, 4982);
     			attr_dev(button1, "id", "uploadButton");
     			set_style(button1, "display", "none");
-    			add_location(button1, file, 185, 3, 5145);
+    			add_location(button1, file, 185, 3, 5149);
     			attr_dev(div2, "id", "uploadTool");
-    			add_location(div2, file, 173, 2, 4718);
+    			add_location(div2, file, 173, 2, 4722);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, p0, anchor);
@@ -1891,9 +1891,9 @@ var app = (function () {
     			t3 = space();
     			if_block.c();
     			attr_dev(h1, "class", "svelte-1n265be");
-    			add_location(h1, file, 168, 1, 4525);
+    			add_location(h1, file, 168, 1, 4529);
     			attr_dev(main, "class", "svelte-1n265be");
-    			add_location(main, file, 167, 0, 4516);
+    			add_location(main, file, 167, 0, 4520);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -2119,7 +2119,7 @@ var app = (function () {
     	}).then(function (res) {
     		return res.json();
     	}).then(function (resJson) {
-    		data = resJson.data;
+    		let data = resJson.data;
 
     		for (let i = 0; i < data.length; i++) {
     			imageURLs.push(data[i].link);
