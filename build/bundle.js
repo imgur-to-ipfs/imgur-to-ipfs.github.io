@@ -2131,7 +2131,7 @@ var app = (function () {
     	}).then(function (res) {
     		return res.json();
     	}).then(function (resJson) {
-    		console.log("2");
+    		console.log("3");
     		let data = resJson.data;
     		let thumbnailURLs = [];
 
