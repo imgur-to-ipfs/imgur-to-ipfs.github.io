@@ -1643,7 +1643,7 @@ var app = (function () {
 
     const file = "src\\App.svelte";
 
-    // (191:1) {:else}
+    // (199:1) {:else}
     function create_else_block(ctx) {
     	let a;
     	let t;
@@ -1654,7 +1654,7 @@ var app = (function () {
     			t = text("Login with Imgur");
     			attr_dev(a, "href", /*imgurUrl*/ ctx[3]);
     			attr_dev(a, "rel", "noreferrer");
-    			add_location(a, file, 191, 2, 5364);
+    			add_location(a, file, 199, 2, 5647);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a, anchor);
@@ -1676,14 +1676,14 @@ var app = (function () {
     		block,
     		id: create_else_block.name,
     		type: "else",
-    		source: "(191:1) {:else}",
+    		source: "(199:1) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (170:1) {#if parsed.access_token != undefined}
+    // (178:1) {#if parsed.access_token != undefined}
     function create_if_block(ctx) {
     	let p0;
     	let t1;
@@ -1756,39 +1756,39 @@ var app = (function () {
     			t15 = space();
     			create_component(gallery.$$.fragment);
     			attr_dev(p0, "id", "imageCountInfo");
-    			add_location(p0, file, 170, 2, 4596);
+    			add_location(p0, file, 178, 2, 4879);
     			attr_dev(button0, "id", "selectAllButton");
-    			add_location(button0, file, 171, 2, 4645);
-    			add_location(p1, file, 174, 3, 4748);
+    			add_location(button0, file, 179, 2, 4928);
+    			add_location(p1, file, 182, 3, 5031);
     			attr_dev(input0, "type", "radio");
     			attr_dev(input0, "id", "localhost");
     			attr_dev(input0, "name", "uploadTarget");
     			input0.value = "localhost";
     			input0.checked = true;
-    			add_location(input0, file, 176, 4, 4781);
+    			add_location(input0, file, 184, 4, 5064);
     			attr_dev(label0, "for", "localhost");
-    			add_location(label0, file, 177, 4, 4868);
+    			add_location(label0, file, 185, 4, 5151);
     			attr_dev(input1, "type", "text");
     			attr_dev(input1, "id", "localhostPort");
     			input1.value = "8080";
-    			add_location(input1, file, 178, 4, 4915);
-    			add_location(div0, file, 175, 3, 4770);
+    			add_location(input1, file, 186, 4, 5198);
+    			add_location(div0, file, 183, 3, 5053);
     			attr_dev(input2, "type", "radio");
     			attr_dev(input2, "id", "api");
     			attr_dev(input2, "name", "uploadTarget");
     			input2.value = "api";
-    			add_location(input2, file, 181, 4, 4993);
+    			add_location(input2, file, 189, 4, 5276);
     			attr_dev(label1, "for", "api");
-    			add_location(label1, file, 182, 4, 5060);
+    			add_location(label1, file, 190, 4, 5343);
     			attr_dev(input3, "type", "text");
     			attr_dev(input3, "id", "apiUrl");
-    			add_location(input3, file, 183, 4, 5102);
-    			add_location(div1, file, 180, 3, 4982);
+    			add_location(input3, file, 191, 4, 5385);
+    			add_location(div1, file, 188, 3, 5265);
     			attr_dev(button1, "id", "uploadButton");
     			set_style(button1, "display", "none");
-    			add_location(button1, file, 185, 3, 5149);
+    			add_location(button1, file, 193, 3, 5432);
     			attr_dev(div2, "id", "uploadTool");
-    			add_location(div2, file, 173, 2, 4722);
+    			add_location(div2, file, 181, 2, 5005);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, p0, anchor);
@@ -1853,7 +1853,7 @@ var app = (function () {
     		block,
     		id: create_if_block.name,
     		type: "if",
-    		source: "(170:1) {#if parsed.access_token != undefined}",
+    		source: "(178:1) {#if parsed.access_token != undefined}",
     		ctx
     	});
 
@@ -1891,9 +1891,9 @@ var app = (function () {
     			t3 = space();
     			if_block.c();
     			attr_dev(h1, "class", "svelte-1n265be");
-    			add_location(h1, file, 168, 1, 4529);
+    			add_location(h1, file, 176, 1, 4812);
     			attr_dev(main, "class", "svelte-1n265be");
-    			add_location(main, file, 167, 0, 4520);
+    			add_location(main, file, 175, 0, 4803);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1968,6 +1968,13 @@ var app = (function () {
 
     	// "l" means "large thumbnail"
     	return thumbnailBase + "l" + thumbnailExtension;
+    }
+
+    function getOriginalURL(thumbnailURL) {
+    	let thumbnailBase = imageURL.split(".").slice(0, -1).join(".");
+    	thumbnailBase = thumbnailBase.slice(0, -1);
+    	let thumbnailExtension = imageURL.split(".")[-1];
+    	return thumbnailBase + thumbnailExtension;
     }
 
     function removeItemOnce(arr, value) {
@@ -2125,6 +2132,7 @@ var app = (function () {
     			imageURLs.push(data[i].link);
     		}
 
+    		console.log("1");
     		document.getElementById("imageGallery").textContent = getImages(imageURLs);
     		console.log(resJson);
     		return resJson;
@@ -2155,6 +2163,7 @@ var app = (function () {
     		imageURLs,
     		accessToken,
     		getThumbnailURL,
+    		getOriginalURL,
     		removeItemOnce,
     		upload,
     		updateCounter,
