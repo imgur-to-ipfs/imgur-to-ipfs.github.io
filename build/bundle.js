@@ -1654,7 +1654,7 @@ var app = (function () {
     			t = text("Login with Imgur");
     			attr_dev(a, "href", /*imgurUrl*/ ctx[3]);
     			attr_dev(a, "rel", "noreferrer");
-    			add_location(a, file, 206, 2, 5904);
+    			add_location(a, file, 206, 2, 5911);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a, anchor);
@@ -1755,39 +1755,39 @@ var app = (function () {
     			t15 = space();
     			create_component(gallery.$$.fragment);
     			attr_dev(p0, "id", "imageCountInfo");
-    			add_location(p0, file, 185, 2, 5154);
+    			add_location(p0, file, 185, 2, 5161);
     			attr_dev(button0, "id", "selectAllButton");
-    			add_location(button0, file, 186, 2, 5203);
-    			add_location(p1, file, 189, 3, 5306);
+    			add_location(button0, file, 186, 2, 5210);
+    			add_location(p1, file, 189, 3, 5313);
     			attr_dev(input0, "type", "radio");
     			attr_dev(input0, "id", "localhost");
     			attr_dev(input0, "name", "uploadTarget");
     			input0.value = "localhost";
     			input0.checked = true;
-    			add_location(input0, file, 191, 4, 5339);
+    			add_location(input0, file, 191, 4, 5346);
     			attr_dev(label0, "for", "localhost");
-    			add_location(label0, file, 192, 4, 5426);
+    			add_location(label0, file, 192, 4, 5433);
     			attr_dev(input1, "type", "text");
     			attr_dev(input1, "id", "localhostPort");
     			input1.value = "8080";
-    			add_location(input1, file, 193, 4, 5473);
-    			add_location(div0, file, 190, 3, 5328);
+    			add_location(input1, file, 193, 4, 5480);
+    			add_location(div0, file, 190, 3, 5335);
     			attr_dev(input2, "type", "radio");
     			attr_dev(input2, "id", "api");
     			attr_dev(input2, "name", "uploadTarget");
     			input2.value = "api";
-    			add_location(input2, file, 196, 4, 5551);
+    			add_location(input2, file, 196, 4, 5558);
     			attr_dev(label1, "for", "api");
-    			add_location(label1, file, 197, 4, 5618);
+    			add_location(label1, file, 197, 4, 5625);
     			attr_dev(input3, "type", "text");
     			attr_dev(input3, "id", "apiUrl");
-    			add_location(input3, file, 198, 4, 5660);
-    			add_location(div1, file, 195, 3, 5540);
+    			add_location(input3, file, 198, 4, 5667);
+    			add_location(div1, file, 195, 3, 5547);
     			attr_dev(button1, "id", "uploadButton");
     			set_style(button1, "display", "none");
-    			add_location(button1, file, 200, 3, 5707);
+    			add_location(button1, file, 200, 3, 5714);
     			attr_dev(div2, "id", "uploadTool");
-    			add_location(div2, file, 188, 2, 5280);
+    			add_location(div2, file, 188, 2, 5287);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, p0, anchor);
@@ -1890,9 +1890,9 @@ var app = (function () {
     			t3 = space();
     			if_block.c();
     			attr_dev(h1, "class", "svelte-1n265be");
-    			add_location(h1, file, 183, 1, 5087);
+    			add_location(h1, file, 183, 1, 5094);
     			attr_dev(main, "class", "svelte-1n265be");
-    			add_location(main, file, 182, 0, 5078);
+    			add_location(main, file, 182, 0, 5085);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1966,14 +1966,14 @@ var app = (function () {
     	let thumbnailExtension = imageURL.split(".").slice(-1)[0];
 
     	// "l" means "large thumbnail"
-    	return thumbnailBase + "l" + thumbnailExtension;
+    	return thumbnailBase + "m." + thumbnailExtension;
     }
 
     function getOriginalURL(thumbnailURL) {
     	let thumbnailBase = imageURL.split(".").slice(0, -1).join(".");
     	thumbnailBase = thumbnailBase.slice(0, -1);
     	let thumbnailExtension = imageURL.split(".").slice(-1)[0];
-    	return thumbnailBase + thumbnailExtension;
+    	return thumbnailBase + "." + thumbnailExtension;
     }
 
     function removeItemOnce(arr, value) {
@@ -2131,7 +2131,7 @@ var app = (function () {
     	}).then(function (res) {
     		return res.json();
     	}).then(function (resJson) {
-    		console.log("3");
+    		console.log("4");
     		let data = resJson.data;
     		let thumbnailURLs = [];
 
