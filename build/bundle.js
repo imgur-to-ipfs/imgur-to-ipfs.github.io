@@ -2129,13 +2129,13 @@ var app = (function () {
     	}).then(function (res) {
     		return res.json();
     	}).then(function (resJson) {
+    		console.log("1");
     		let data = resJson.data;
 
     		for (let i = 0; i < data.length; i++) {
     			imageURLs.push(data[i].link);
     		}
 
-    		console.log("1");
     		document.getElementById("gallery").textContent = getImages(imageURLs);
     		console.log(resJson);
     		return resJson;
