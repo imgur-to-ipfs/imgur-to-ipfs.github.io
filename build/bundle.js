@@ -2598,7 +2598,7 @@ message Message {
 
     const file = "src\\App.svelte";
 
-    // (319:1) {:else}
+    // (318:1) {:else}
     function create_else_block(ctx) {
     	let a;
     	let t;
@@ -2609,7 +2609,7 @@ message Message {
     			t = text("Login with Imgur");
     			attr_dev(a, "href", /*imgurUrl*/ ctx[1]);
     			attr_dev(a, "rel", "noreferrer");
-    			add_location(a, file, 319, 2, 9481);
+    			add_location(a, file, 318, 2, 9436);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a, anchor);
@@ -2629,7 +2629,7 @@ message Message {
     		block,
     		id: create_else_block.name,
     		type: "else",
-    		source: "(319:1) {:else}",
+    		source: "(318:1) {:else}",
     		ctx
     	});
 
@@ -2642,17 +2642,16 @@ message Message {
     	let t1;
     	let button0;
     	let t3;
-    	let div0;
     	let button1;
     	let t5;
-    	let div1;
+    	let div0;
     	let p1;
     	let t7;
     	let ul;
     	let t8;
     	let p2;
     	let t10;
-    	let div2;
+    	let div1;
     	let mounted;
     	let dispose;
 
@@ -2664,11 +2663,10 @@ message Message {
     			button0 = element("button");
     			button0.textContent = "Select all";
     			t3 = space();
-    			div0 = element("div");
     			button1 = element("button");
     			button1.textContent = "Upload";
     			t5 = space();
-    			div1 = element("div");
+    			div0 = element("div");
     			p1 = element("p");
     			p1.textContent = "Done! Here are your CIDs:";
     			t7 = space();
@@ -2677,42 +2675,39 @@ message Message {
     			p2 = element("p");
     			p2.textContent = "Your browser is now running an IPFS node, don't close it!";
     			t10 = space();
-    			div2 = element("div");
+    			div1 = element("div");
     			attr_dev(p0, "id", "imageCountInfo");
-    			add_location(p0, file, 282, 2, 8279);
+    			add_location(p0, file, 282, 2, 8253);
     			attr_dev(button0, "id", "selectAllButton");
-    			add_location(button0, file, 283, 2, 8328);
+    			add_location(button0, file, 283, 2, 8302);
     			attr_dev(button1, "id", "uploadButton");
-    			set_style(button1, "display", "none");
-    			add_location(button1, file, 299, 3, 8849);
-    			attr_dev(div0, "id", "uploadTool");
-    			add_location(div0, file, 285, 2, 8405);
-    			add_location(p1, file, 303, 3, 9001);
+    			button1.disabled = true;
+    			add_location(button1, file, 284, 2, 8375);
+    			add_location(p1, file, 302, 3, 8956);
     			attr_dev(ul, "id", "cidList");
-    			add_location(ul, file, 304, 3, 9038);
-    			add_location(p2, file, 307, 3, 9072);
-    			attr_dev(div1, "id", "resultsContainer");
-    			set_style(div1, "display", "none");
-    			add_location(div1, file, 302, 2, 8948);
-    			attr_dev(div2, "id", "galleryContainer");
-    			add_location(div2, file, 309, 2, 9150);
+    			add_location(ul, file, 303, 3, 8993);
+    			add_location(p2, file, 306, 3, 9027);
+    			attr_dev(div0, "id", "resultsContainer");
+    			set_style(div0, "display", "none");
+    			add_location(div0, file, 301, 2, 8903);
+    			attr_dev(div1, "id", "galleryContainer");
+    			add_location(div1, file, 308, 2, 9105);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, p0, anchor);
     			insert_dev(target, t1, anchor);
     			insert_dev(target, button0, anchor);
     			insert_dev(target, t3, anchor);
-    			insert_dev(target, div0, anchor);
-    			append_dev(div0, button1);
+    			insert_dev(target, button1, anchor);
     			insert_dev(target, t5, anchor);
-    			insert_dev(target, div1, anchor);
-    			append_dev(div1, p1);
-    			append_dev(div1, t7);
-    			append_dev(div1, ul);
-    			append_dev(div1, t8);
-    			append_dev(div1, p2);
+    			insert_dev(target, div0, anchor);
+    			append_dev(div0, p1);
+    			append_dev(div0, t7);
+    			append_dev(div0, ul);
+    			append_dev(div0, t8);
+    			append_dev(div0, p2);
     			insert_dev(target, t10, anchor);
-    			insert_dev(target, div2, anchor);
+    			insert_dev(target, div1, anchor);
 
     			if (!mounted) {
     				dispose = [
@@ -2729,11 +2724,11 @@ message Message {
     			if (detaching) detach_dev(t1);
     			if (detaching) detach_dev(button0);
     			if (detaching) detach_dev(t3);
-    			if (detaching) detach_dev(div0);
+    			if (detaching) detach_dev(button1);
     			if (detaching) detach_dev(t5);
-    			if (detaching) detach_dev(div1);
+    			if (detaching) detach_dev(div0);
     			if (detaching) detach_dev(t10);
-    			if (detaching) detach_dev(div2);
+    			if (detaching) detach_dev(div1);
     			mounted = false;
     			run_all(dispose);
     		}
@@ -2793,9 +2788,9 @@ message Message {
     			attr_dev(link3, "rel", "stylesheet");
     			add_location(link3, file, 7, 1, 423);
     			attr_dev(h1, "class", "svelte-1n265be");
-    			add_location(h1, file, 280, 1, 8212);
+    			add_location(h1, file, 280, 1, 8186);
     			attr_dev(main, "class", "svelte-1n265be");
-    			add_location(main, file, 279, 0, 8203);
+    			add_location(main, file, 279, 0, 8177);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -2948,7 +2943,7 @@ message Message {
     		: "Select all";
 
     		let uploadButton = document.getElementById("uploadButton");
-    		uploadButton.style.display = selectedImages.length > 0 ? "inline-block" : "none";
+    		uploadButton.disabled = selectedImages.length == 0;
     	}
 
     	function selectImage(image) {
@@ -3053,10 +3048,21 @@ message Message {
     			}
 
     			//document.getElementById("gallery").innerHTML = getImages(thumbnailURLs);
-    			//let gallery = buildGallery(["https://i.imgur.com/B0gv74Cm.jpg", "https://i.imgur.com/B0gv74Cm.jpg", "https://i.imgur.com/B0gv74Cm.jpg", "https://i.imgur.com/B0gv74Cm.jpg"], 400, 200, 5);
-    			let gallery = buildGallery(thumbnailURLs, 400, 200, 5);
+    			let gallery = buildGallery(
+    				[
+    					"https://i.imgur.com/B0gv74Cm.jpg",
+    					"https://i.imgur.com/B0gv74Cm.jpg",
+    					"https://i.imgur.com/B0gv74Cm.jpg",
+    					"https://i.imgur.com/B0gv74Cm.jpg"
+    				],
+    				400,
+    				200,
+    				5
+    			);
 
+    			//let gallery = buildGallery(thumbnailURLs, 400, 200, 5);
     			document.getElementById("galleryContainer").appendChild(gallery);
+
     			console.log(resJson);
     			return resJson;
     		});
@@ -3094,7 +3100,7 @@ message Message {
     				image.alt = "";
     				image.onclick = imageClicked;
     				image.style = "opacity:50%";
-    				image.class = "imgurImage";
+    				image.className = "imgurImage";
     				column.appendChild(image);
     			}
 
