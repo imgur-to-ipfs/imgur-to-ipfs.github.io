@@ -2605,7 +2605,7 @@ message Message {
 
     const file = "src\\App.svelte";
 
-    // (304:1) {:else}
+    // (307:1) {:else}
     function create_else_block(ctx) {
     	let a;
     	let t;
@@ -2616,7 +2616,7 @@ message Message {
     			t = text("Login with Imgur");
     			attr_dev(a, "href", /*imgurUrl*/ ctx[2]);
     			attr_dev(a, "rel", "noreferrer");
-    			add_location(a, file, 304, 2, 8890);
+    			add_location(a, file, 307, 2, 9013);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a, anchor);
@@ -2636,14 +2636,14 @@ message Message {
     		block,
     		id: create_else_block.name,
     		type: "else",
-    		source: "(304:1) {:else}",
+    		source: "(307:1) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (267:1) {#if parsed.access_token != undefined}
+    // (270:1) {#if parsed.access_token != undefined}
     function create_if_block(ctx) {
     	let p0;
     	let t1;
@@ -2686,22 +2686,23 @@ message Message {
     			t10 = space();
     			div2 = element("div");
     			attr_dev(p0, "id", "imageCountInfo");
-    			add_location(p0, file, 267, 2, 7709);
+    			add_location(p0, file, 270, 2, 7811);
     			attr_dev(button0, "id", "selectAllButton");
-    			add_location(button0, file, 268, 2, 7758);
+    			add_location(button0, file, 271, 2, 7860);
     			attr_dev(button1, "id", "uploadButton");
     			set_style(button1, "display", "none");
-    			add_location(button1, file, 284, 3, 8279);
+    			add_location(button1, file, 287, 3, 8381);
     			attr_dev(div0, "id", "uploadTool");
-    			add_location(div0, file, 270, 2, 7835);
-    			add_location(p1, file, 288, 3, 8410);
+    			add_location(div0, file, 273, 2, 7937);
+    			add_location(p1, file, 291, 3, 8533);
     			attr_dev(ul, "id", "cidList");
-    			add_location(ul, file, 289, 3, 8447);
-    			add_location(p2, file, 292, 3, 8481);
+    			add_location(ul, file, 292, 3, 8570);
+    			add_location(p2, file, 295, 3, 8604);
     			attr_dev(div1, "id", "resultsContainer");
-    			add_location(div1, file, 287, 2, 8378);
+    			set_style(div1, "display", "none");
+    			add_location(div1, file, 290, 2, 8480);
     			attr_dev(div2, "id", "galleryContainer");
-    			add_location(div2, file, 294, 2, 8559);
+    			add_location(div2, file, 297, 2, 8682);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, p0, anchor);
@@ -2749,7 +2750,7 @@ message Message {
     		block,
     		id: create_if_block.name,
     		type: "if",
-    		source: "(267:1) {#if parsed.access_token != undefined}",
+    		source: "(270:1) {#if parsed.access_token != undefined}",
     		ctx
     	});
 
@@ -2782,9 +2783,9 @@ message Message {
     			t3 = space();
     			if_block.c();
     			attr_dev(h1, "class", "svelte-1n265be");
-    			add_location(h1, file, 265, 1, 7642);
+    			add_location(h1, file, 268, 1, 7744);
     			attr_dev(main, "class", "svelte-1n265be");
-    			add_location(main, file, 264, 0, 7633);
+    			add_location(main, file, 267, 0, 7735);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -2861,11 +2862,11 @@ message Message {
     	Ipfs.create().then(async function (node) {
     		let list = document.getElementById("cidList");
     		let files = [];
+    		console.log(urls);
 
     		for (let i = 0; i < urls.length; i++) {
-    			let image = await fetch(urls[i], { "mode": "no-cors" });
-    			let content = image.blob();
-    			console.log(content);
+    			let image = await fetch(urls[i], {}); //"mode" : "no-cors"
+    			let content = { content: await image.blob() };
     			files.push(content);
     		}
 
@@ -2928,6 +2929,7 @@ message Message {
 
     		console.log(selectedURLs);
     		uploadOnIPFS(selectedURLs);
+    		document.getElementById("resultsContainer").style.display = "block";
     	}
 
     	function updateCounter() {
@@ -3046,21 +3048,10 @@ message Message {
     		}
 
     		//document.getElementById("gallery").innerHTML = getImages(thumbnailURLs);
-    		let gallery = buildGallery(
-    			[
-    				"https://i.imgur.com/B0gv74Cm.jpg",
-    				"https://i.imgur.com/B0gv74Cm.jpg",
-    				"https://i.imgur.com/B0gv74Cm.jpg",
-    				"https://i.imgur.com/B0gv74Cm.jpg"
-    			],
-    			400,
-    			200,
-    			5
-    		);
+    		//let gallery = buildGallery(["https://i.imgur.com/B0gv74Cm.jpg", "https://i.imgur.com/B0gv74Cm.jpg", "https://i.imgur.com/B0gv74Cm.jpg", "https://i.imgur.com/B0gv74Cm.jpg"], 400, 200, 5);
+    		let gallery = buildGallery(thumbnailURLs, 400, 200, 5);
 
-    		//let gallery = buildGallery(thumbnailURLs, 400, 200, 5);
     		document.getElementById("galleryContainer").appendChild(gallery);
-
     		console.log(resJson);
     		return resJson;
     	});
