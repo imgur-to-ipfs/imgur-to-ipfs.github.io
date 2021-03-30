@@ -440,13 +440,6 @@ var app = (function () {
         else
             dispatch_dev('SvelteDOMSetAttribute', { node, attribute, value });
     }
-    function set_data_dev(text, data) {
-        data = '' + data;
-        if (text.wholeText === data)
-            return;
-        dispatch_dev('SvelteDOMSetData', { node: text, data });
-        text.data = data;
-    }
     function validate_each_argument(arg) {
         if (typeof arg !== 'string' && !(arg && typeof arg === 'object' && 'length' in arg)) {
             let msg = '{#each} only iterates over array-like objects.';
@@ -2605,7 +2598,7 @@ message Message {
 
     const file = "src\\App.svelte";
 
-    // (307:1) {:else}
+    // (309:1) {:else}
     function create_else_block(ctx) {
     	let a;
     	let t;
@@ -2614,17 +2607,17 @@ message Message {
     		c: function create() {
     			a = element("a");
     			t = text("Login with Imgur");
-    			attr_dev(a, "href", /*imgurUrl*/ ctx[2]);
+    			attr_dev(a, "href", /*imgurUrl*/ ctx[1]);
     			attr_dev(a, "rel", "noreferrer");
-    			add_location(a, file, 307, 2, 9013);
+    			add_location(a, file, 309, 2, 8930);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a, anchor);
     			append_dev(a, t);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*imgurUrl*/ 4) {
-    				attr_dev(a, "href", /*imgurUrl*/ ctx[2]);
+    			if (dirty & /*imgurUrl*/ 2) {
+    				attr_dev(a, "href", /*imgurUrl*/ ctx[1]);
     			}
     		},
     		d: function destroy(detaching) {
@@ -2636,14 +2629,14 @@ message Message {
     		block,
     		id: create_else_block.name,
     		type: "else",
-    		source: "(307:1) {:else}",
+    		source: "(309:1) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (270:1) {#if parsed.access_token != undefined}
+    // (272:1) {#if parsed.access_token != undefined}
     function create_if_block(ctx) {
     	let p0;
     	let t1;
@@ -2686,23 +2679,23 @@ message Message {
     			t10 = space();
     			div2 = element("div");
     			attr_dev(p0, "id", "imageCountInfo");
-    			add_location(p0, file, 270, 2, 7811);
+    			add_location(p0, file, 272, 2, 7728);
     			attr_dev(button0, "id", "selectAllButton");
-    			add_location(button0, file, 271, 2, 7860);
+    			add_location(button0, file, 273, 2, 7777);
     			attr_dev(button1, "id", "uploadButton");
     			set_style(button1, "display", "none");
-    			add_location(button1, file, 287, 3, 8381);
+    			add_location(button1, file, 289, 3, 8298);
     			attr_dev(div0, "id", "uploadTool");
-    			add_location(div0, file, 273, 2, 7937);
-    			add_location(p1, file, 291, 3, 8533);
+    			add_location(div0, file, 275, 2, 7854);
+    			add_location(p1, file, 293, 3, 8450);
     			attr_dev(ul, "id", "cidList");
-    			add_location(ul, file, 292, 3, 8570);
-    			add_location(p2, file, 295, 3, 8604);
+    			add_location(ul, file, 294, 3, 8487);
+    			add_location(p2, file, 297, 3, 8521);
     			attr_dev(div1, "id", "resultsContainer");
     			set_style(div1, "display", "none");
-    			add_location(div1, file, 290, 2, 8480);
+    			add_location(div1, file, 292, 2, 8397);
     			attr_dev(div2, "id", "galleryContainer");
-    			add_location(div2, file, 297, 2, 8682);
+    			add_location(div2, file, 299, 2, 8599);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, p0, anchor);
@@ -2723,8 +2716,8 @@ message Message {
 
     			if (!mounted) {
     				dispose = [
-    					listen_dev(button0, "click", /*toggleAll*/ ctx[4], false, false, false),
-    					listen_dev(button1, "click", /*upload*/ ctx[3], false, false, false)
+    					listen_dev(button0, "click", /*toggleAll*/ ctx[3], false, false, false),
+    					listen_dev(button1, "click", /*upload*/ ctx[2], false, false, false)
     				];
 
     				mounted = true;
@@ -2750,7 +2743,7 @@ message Message {
     		block,
     		id: create_if_block.name,
     		type: "if",
-    		source: "(270:1) {#if parsed.access_token != undefined}",
+    		source: "(272:1) {#if parsed.access_token != undefined}",
     		ctx
     	});
 
@@ -2760,10 +2753,7 @@ message Message {
     function create_fragment(ctx) {
     	let main;
     	let h1;
-    	let t0;
     	let t1;
-    	let t2;
-    	let t3;
 
     	function select_block_type(ctx, dirty) {
     		if (/*parsed*/ ctx[0].access_token != undefined) return create_if_block;
@@ -2777,15 +2767,13 @@ message Message {
     		c: function create() {
     			main = element("main");
     			h1 = element("h1");
-    			t0 = text("Hello ");
-    			t1 = text(/*name*/ ctx[1]);
-    			t2 = text("!");
-    			t3 = space();
+    			h1.textContent = "Imgur to IPFS";
+    			t1 = space();
     			if_block.c();
     			attr_dev(h1, "class", "svelte-1n265be");
-    			add_location(h1, file, 268, 1, 7744);
+    			add_location(h1, file, 270, 1, 7661);
     			attr_dev(main, "class", "svelte-1n265be");
-    			add_location(main, file, 267, 0, 7735);
+    			add_location(main, file, 269, 0, 7652);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -2793,15 +2781,10 @@ message Message {
     		m: function mount(target, anchor) {
     			insert_dev(target, main, anchor);
     			append_dev(main, h1);
-    			append_dev(h1, t0);
-    			append_dev(h1, t1);
-    			append_dev(h1, t2);
-    			append_dev(main, t3);
+    			append_dev(main, t1);
     			if_block.m(main, null);
     		},
     		p: function update(ctx, [dirty]) {
-    			if (dirty & /*name*/ 2) set_data_dev(t1, /*name*/ ctx[1]);
-
     			if (current_block_type === (current_block_type = select_block_type(ctx)) && if_block) {
     				if_block.p(ctx, dirty);
     			} else {
@@ -2876,6 +2859,8 @@ message Message {
     			element.innerHTML = result;
     			list.appendChild(element);
     		}
+
+    		document.getElementById("resultsContainer").style.display = "block";
     	});
     }
 
@@ -2915,7 +2900,7 @@ message Message {
     	let accessToken = null;
 
     	selectedImagesStore.subscribe(value => {
-    		$$invalidate(5, selectedImages = value);
+    		$$invalidate(4, selectedImages = value);
     	});
 
     	selectedImages = [];
@@ -2929,7 +2914,6 @@ message Message {
 
     		console.log(selectedURLs);
     		uploadOnIPFS(selectedURLs);
-    		document.getElementById("resultsContainer").style.display = "block";
     	}
 
     	function updateCounter() {
@@ -3013,50 +2997,40 @@ message Message {
     		parsed = queryString.parse(parsed);
     	}
 
-    	console.log(parsed.access_token);
-
-    	/*if (process.browser) {
-        const myCookieValue = getCookie("myCookie");
-    }*/
-    	console.log(new Headers({
-    			"Authorization": `Bearer ${parsed.access_token}`,
-    			referrer: ""
-    		}).values().next());
-
-    	fetch("https://api.imgur.com/3/account/me/images", {
-    		method: "get",
-    		headers: new Headers({
-    				"Authorization": `Bearer ${parsed.access_token}`
-    			}), //"referrer" : "api.imgur.com",
-    		/*"Access-Control-Allow-Origin": "*",
+    	function loadImages() {
+    		fetch("https://api.imgur.com/3/account/me/images", {
+    			method: "get",
+    			headers: new Headers({
+    					"Authorization": `Bearer ${parsed.access_token}`
+    				}), //"referrer" : "api.imgur.com",
+    			/*"Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Credentials": "true",
     "Access-Control-Allow-Methods": "OPTIONS, GET, POST",
     "Access-Control-Allow-Headers": "Content-Type, Depth, User-Agent, X-File-Size, X-Requested-With, If-Modified-Since, X-File-Name, Cache-Control"
-    */
-    		//'Content-Type': 'application/x-www-form-urlencoded'
-    		
-    	}).then(function (res) {
-    		return res.json();
-    	}).then(function (resJson) {
-    		console.log("4");
-    		let data = resJson.data;
-    		let thumbnailURLs = [];
+    	*/
+    			//'Content-Type': 'application/x-www-form-urlencoded'
+    			
+    		}).then(function (res) {
+    			return res.json();
+    		}).then(function (resJson) {
+    			console.log("4");
+    			let data = resJson.data;
+    			let thumbnailURLs = [];
 
-    		for (let i = 0; i < data.length; i++) {
-    			imageURLs.push(data[i].link);
-    			thumbnailURLs.push(getThumbnailURL(data[i].link));
-    		}
+    			for (let i = 0; i < data.length; i++) {
+    				imageURLs.push(data[i].link);
+    				thumbnailURLs.push(getThumbnailURL(data[i].link));
+    			}
 
-    		//document.getElementById("gallery").innerHTML = getImages(thumbnailURLs);
-    		//let gallery = buildGallery(["https://i.imgur.com/B0gv74Cm.jpg", "https://i.imgur.com/B0gv74Cm.jpg", "https://i.imgur.com/B0gv74Cm.jpg", "https://i.imgur.com/B0gv74Cm.jpg"], 400, 200, 5);
-    		let gallery = buildGallery(thumbnailURLs, 400, 200, 5);
+    			//document.getElementById("gallery").innerHTML = getImages(thumbnailURLs);
+    			//let gallery = buildGallery(["https://i.imgur.com/B0gv74Cm.jpg", "https://i.imgur.com/B0gv74Cm.jpg", "https://i.imgur.com/B0gv74Cm.jpg", "https://i.imgur.com/B0gv74Cm.jpg"], 400, 200, 5);
+    			let gallery = buildGallery(thumbnailURLs, 400, 200, 5);
 
-    		document.getElementById("galleryContainer").appendChild(gallery);
-    		console.log(resJson);
-    		return resJson;
-    	});
-
-    	console.log(parsed);
+    			document.getElementById("galleryContainer").appendChild(gallery);
+    			console.log(resJson);
+    			return resJson;
+    		});
+    	}
 
     	function buildGallery(imgURLs, galleryWidth, maxColumnWidth, gap) {
     		let columnCount = parseInt(galleryWidth / maxColumnWidth) || 1;
@@ -3101,6 +3075,13 @@ message Message {
     		return gallery;
     	}
 
+    	console.log(parsed);
+
+    	if (parsed.access_token != undefined) {
+    		console.log("Loading images");
+    		loadImages();
+    	}
+
     	const writable_props = ["name", "selectedImages", "imageURLs", "parsed", "imgurUrl"];
 
     	Object.keys($$props).forEach(key => {
@@ -3108,11 +3089,11 @@ message Message {
     	});
 
     	$$self.$$set = $$props => {
-    		if ("name" in $$props) $$invalidate(1, name = $$props.name);
-    		if ("selectedImages" in $$props) $$invalidate(5, selectedImages = $$props.selectedImages);
+    		if ("name" in $$props) $$invalidate(5, name = $$props.name);
+    		if ("selectedImages" in $$props) $$invalidate(4, selectedImages = $$props.selectedImages);
     		if ("imageURLs" in $$props) $$invalidate(6, imageURLs = $$props.imageURLs);
     		if ("parsed" in $$props) $$invalidate(0, parsed = $$props.parsed);
-    		if ("imgurUrl" in $$props) $$invalidate(2, imgurUrl = $$props.imgurUrl);
+    		if ("imgurUrl" in $$props) $$invalidate(1, imgurUrl = $$props.imgurUrl);
     	};
 
     	$$self.$capture_state = () => ({
@@ -3139,21 +3120,22 @@ message Message {
     		selectAll,
     		deselectAll,
     		toggleAll,
-    		getImages,
     		parsed,
     		clientID,
     		imgurUrl,
+    		getImages,
+    		loadImages,
     		buildGallery
     	});
 
     	$$self.$inject_state = $$props => {
-    		if ("name" in $$props) $$invalidate(1, name = $$props.name);
-    		if ("selectedImages" in $$props) $$invalidate(5, selectedImages = $$props.selectedImages);
+    		if ("name" in $$props) $$invalidate(5, name = $$props.name);
+    		if ("selectedImages" in $$props) $$invalidate(4, selectedImages = $$props.selectedImages);
     		if ("imageURLs" in $$props) $$invalidate(6, imageURLs = $$props.imageURLs);
     		if ("accessToken" in $$props) accessToken = $$props.accessToken;
     		if ("parsed" in $$props) $$invalidate(0, parsed = $$props.parsed);
     		if ("clientID" in $$props) clientID = $$props.clientID;
-    		if ("imgurUrl" in $$props) $$invalidate(2, imgurUrl = $$props.imgurUrl);
+    		if ("imgurUrl" in $$props) $$invalidate(1, imgurUrl = $$props.imgurUrl);
     	};
 
     	if ($$props && "$$inject" in $$props) {
@@ -3162,11 +3144,11 @@ message Message {
 
     	return [
     		parsed,
-    		name,
     		imgurUrl,
     		upload,
     		toggleAll,
     		selectedImages,
+    		name,
     		imageURLs,
     		imageClicked
     	];
@@ -3177,12 +3159,12 @@ message Message {
     		super(options);
 
     		init(this, options, instance, create_fragment, safe_not_equal, {
-    			name: 1,
-    			selectedImages: 5,
+    			name: 5,
+    			selectedImages: 4,
     			imageURLs: 6,
     			imageClicked: 7,
     			parsed: 0,
-    			imgurUrl: 2
+    			imgurUrl: 1
     		});
 
     		dispatch_dev("SvelteRegisterComponent", {
@@ -3195,7 +3177,7 @@ message Message {
     		const { ctx } = this.$$;
     		const props = options.props || {};
 
-    		if (/*name*/ ctx[1] === undefined && !("name" in props)) {
+    		if (/*name*/ ctx[5] === undefined && !("name" in props)) {
     			console_1.warn("<App> was created without expected prop 'name'");
     		}
     	}
