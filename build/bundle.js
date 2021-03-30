@@ -2598,7 +2598,7 @@ message Message {
 
     const file = "src\\App.svelte";
 
-    // (318:1) {:else}
+    // (319:1) {:else}
     function create_else_block(ctx) {
     	let a;
     	let t;
@@ -2609,7 +2609,7 @@ message Message {
     			t = text("Login with Imgur");
     			attr_dev(a, "href", /*imgurUrl*/ ctx[1]);
     			attr_dev(a, "rel", "noreferrer");
-    			add_location(a, file, 318, 2, 9436);
+    			add_location(a, file, 319, 2, 9480);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a, anchor);
@@ -2629,14 +2629,14 @@ message Message {
     		block,
     		id: create_else_block.name,
     		type: "else",
-    		source: "(318:1) {:else}",
+    		source: "(319:1) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (282:1) {#if parsed.access_token != undefined}
+    // (283:1) {#if parsed.access_token != undefined}
     function create_if_block(ctx) {
     	let p0;
     	let t1;
@@ -2677,21 +2677,21 @@ message Message {
     			t10 = space();
     			div1 = element("div");
     			attr_dev(p0, "id", "imageCountInfo");
-    			add_location(p0, file, 282, 2, 8253);
+    			add_location(p0, file, 283, 2, 8297);
     			attr_dev(button0, "id", "selectAllButton");
-    			add_location(button0, file, 283, 2, 8302);
+    			add_location(button0, file, 284, 2, 8346);
     			attr_dev(button1, "id", "uploadButton");
     			button1.disabled = true;
-    			add_location(button1, file, 284, 2, 8375);
-    			add_location(p1, file, 302, 3, 8956);
+    			add_location(button1, file, 285, 2, 8419);
+    			add_location(p1, file, 303, 3, 9000);
     			attr_dev(ul, "id", "cidList");
-    			add_location(ul, file, 303, 3, 8993);
-    			add_location(p2, file, 306, 3, 9027);
+    			add_location(ul, file, 304, 3, 9037);
+    			add_location(p2, file, 307, 3, 9071);
     			attr_dev(div0, "id", "resultsContainer");
     			set_style(div0, "display", "none");
-    			add_location(div0, file, 301, 2, 8903);
+    			add_location(div0, file, 302, 2, 8947);
     			attr_dev(div1, "id", "galleryContainer");
-    			add_location(div1, file, 308, 2, 9105);
+    			add_location(div1, file, 309, 2, 9149);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, p0, anchor);
@@ -2738,7 +2738,7 @@ message Message {
     		block,
     		id: create_if_block.name,
     		type: "if",
-    		source: "(282:1) {#if parsed.access_token != undefined}",
+    		source: "(283:1) {#if parsed.access_token != undefined}",
     		ctx
     	});
 
@@ -2788,9 +2788,9 @@ message Message {
     			attr_dev(link3, "rel", "stylesheet");
     			add_location(link3, file, 7, 1, 423);
     			attr_dev(h1, "class", "svelte-1n265be");
-    			add_location(h1, file, 280, 1, 8186);
+    			add_location(h1, file, 281, 1, 8230);
     			attr_dev(main, "class", "svelte-1n265be");
-    			add_location(main, file, 279, 0, 8177);
+    			add_location(main, file, 280, 0, 8221);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -3057,7 +3057,7 @@ message Message {
     				],
     				400,
     				200,
-    				5
+    				10
     			);
 
     			//let gallery = buildGallery(thumbnailURLs, 400, 200, 5);
@@ -3099,7 +3099,8 @@ message Message {
     				image.src = url;
     				image.alt = "";
     				image.onclick = imageClicked;
-    				image.style = "opacity:50%";
+    				image.style.opacity = "50%";
+    				image.style.backgroundColor = "white";
     				image.className = "imgurImage";
     				column.appendChild(image);
     			}
