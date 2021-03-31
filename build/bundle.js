@@ -2598,7 +2598,7 @@ message Message {
 
     const file = "src\\App.svelte";
 
-    // (319:1) {:else}
+    // (332:1) {:else}
     function create_else_block(ctx) {
     	let a;
     	let t;
@@ -2608,8 +2608,10 @@ message Message {
     			a = element("a");
     			t = text("Login with Imgur");
     			attr_dev(a, "href", /*imgurUrl*/ ctx[1]);
+    			attr_dev(a, "class", "btn btn-primary");
+    			attr_dev(a, "role", "button");
     			attr_dev(a, "rel", "noreferrer");
-    			add_location(a, file, 319, 2, 9480);
+    			add_location(a, file, 332, 2, 10372);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a, anchor);
@@ -2629,14 +2631,14 @@ message Message {
     		block,
     		id: create_else_block.name,
     		type: "else",
-    		source: "(319:1) {:else}",
+    		source: "(332:1) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (283:1) {#if parsed.access_token != undefined}
+    // (296:1) {#if parsed.access_token != undefined}
     function create_if_block(ctx) {
     	let p0;
     	let t1;
@@ -2677,21 +2679,26 @@ message Message {
     			t10 = space();
     			div1 = element("div");
     			attr_dev(p0, "id", "imageCountInfo");
-    			add_location(p0, file, 283, 2, 8297);
+    			add_location(p0, file, 296, 2, 9051);
     			attr_dev(button0, "id", "selectAllButton");
-    			add_location(button0, file, 284, 2, 8346);
+    			attr_dev(button0, "type", "button");
+    			attr_dev(button0, "class", "btn btn-secondary btn-rounded");
+    			add_location(button0, file, 297, 2, 9100);
     			attr_dev(button1, "id", "uploadButton");
+    			attr_dev(button1, "type", "button");
+    			attr_dev(button1, "class", "btn btn-primary btn-rounded");
     			button1.disabled = true;
-    			add_location(button1, file, 285, 2, 8419);
-    			add_location(p1, file, 303, 3, 9000);
+    			add_location(button1, file, 298, 2, 9225);
+    			add_location(p1, file, 316, 3, 9856);
     			attr_dev(ul, "id", "cidList");
-    			add_location(ul, file, 304, 3, 9037);
-    			add_location(p2, file, 307, 3, 9071);
+    			attr_dev(ul, "class", "list-group list-group-flush");
+    			add_location(ul, file, 317, 3, 9893);
+    			add_location(p2, file, 320, 3, 9963);
     			attr_dev(div0, "id", "resultsContainer");
     			set_style(div0, "display", "none");
-    			add_location(div0, file, 302, 2, 8947);
+    			add_location(div0, file, 315, 2, 9803);
     			attr_dev(div1, "id", "galleryContainer");
-    			add_location(div1, file, 309, 2, 9149);
+    			add_location(div1, file, 322, 2, 10041);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, p0, anchor);
@@ -2738,7 +2745,7 @@ message Message {
     		block,
     		id: create_if_block.name,
     		type: "if",
-    		source: "(283:1) {#if parsed.access_token != undefined}",
+    		source: "(296:1) {#if parsed.access_token != undefined}",
     		ctx
     	});
 
@@ -2778,19 +2785,23 @@ message Message {
     			attr_dev(link0, "rel", "stylesheet");
     			attr_dev(link0, "href", "https://use.fontawesome.com/releases/v5.8.2/css/all.css");
     			add_location(link0, file, 1, 1, 16);
+    			attr_dev(link1, "href", "https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css");
     			attr_dev(link1, "rel", "stylesheet");
-    			attr_dev(link1, "href", "https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap");
-    			add_location(link1, file, 3, 1, 129);
-    			attr_dev(link2, "href", "https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css");
+    			attr_dev(link1, "integrity", "sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6");
+    			attr_dev(link1, "crossorigin", "anonymous");
+    			add_location(link1, file, 9, 1, 340);
     			attr_dev(link2, "rel", "stylesheet");
-    			add_location(link2, file, 5, 1, 268);
-    			attr_dev(link3, "href", "https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.16.0/css/mdb.min.css");
+    			attr_dev(link2, "href", "https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons");
+    			add_location(link2, file, 16, 1, 844);
     			attr_dev(link3, "rel", "stylesheet");
-    			add_location(link3, file, 7, 1, 423);
+    			attr_dev(link3, "href", "https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css");
+    			attr_dev(link3, "integrity", "sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX");
+    			attr_dev(link3, "crossorigin", "anonymous");
+    			add_location(link3, file, 17, 0, 954);
     			attr_dev(h1, "class", "svelte-1n265be");
-    			add_location(h1, file, 281, 1, 8230);
+    			add_location(h1, file, 291, 1, 8896);
     			attr_dev(main, "class", "svelte-1n265be");
-    			add_location(main, file, 280, 0, 8221);
+    			add_location(main, file, 290, 0, 8887);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -2884,6 +2895,7 @@ message Message {
     			let result = (await node.add(files[i])).path;
     			let element = document.createElement("li");
     			element.innerHTML = result;
+    			element.className = "list-group-item";
     			list.appendChild(element);
     		}
 
@@ -3048,21 +3060,10 @@ message Message {
     			}
 
     			//document.getElementById("gallery").innerHTML = getImages(thumbnailURLs);
-    			let gallery = buildGallery(
-    				[
-    					"https://i.imgur.com/B0gv74Cm.jpg",
-    					"https://i.imgur.com/B0gv74Cm.jpg",
-    					"https://i.imgur.com/B0gv74Cm.jpg",
-    					"https://i.imgur.com/B0gv74Cm.jpg"
-    				],
-    				400,
-    				200,
-    				10
-    			);
+    			//let gallery = buildGallery(["https://i.imgur.com/B0gv74Cm.jpg", "https://i.imgur.com/B0gv74Cm.jpg", "https://i.imgur.com/B0gv74Cm.jpg", "https://i.imgur.com/B0gv74Cm.jpg"], 400, 200, 10);
+    			let gallery = buildGallery(thumbnailURLs, 400, 200, 5);
 
-    			//let gallery = buildGallery(thumbnailURLs, 400, 200, 5);
     			document.getElementById("galleryContainer").appendChild(gallery);
-
     			console.log(resJson);
     			return resJson;
     		});
