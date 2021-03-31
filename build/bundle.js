@@ -1956,7 +1956,7 @@ message Message {
     const { console: console_1, document: document_1 } = globals;
     const file = "src\\App.svelte";
 
-    // (289:1) {:else}
+    // (325:1) {:else}
     function create_else_block(ctx) {
     	let a;
     	let t;
@@ -1969,7 +1969,7 @@ message Message {
     			attr_dev(a, "class", "btn btn-primary");
     			attr_dev(a, "role", "button");
     			attr_dev(a, "rel", "noreferrer");
-    			add_location(a, file, 289, 2, 8778);
+    			add_location(a, file, 325, 2, 10070);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a, anchor);
@@ -1989,14 +1989,14 @@ message Message {
     		block,
     		id: create_else_block.name,
     		type: "else",
-    		source: "(289:1) {:else}",
+    		source: "(325:1) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (250:1) {#if parsed.access_token != undefined}
+    // (285:1) {#if parsed.access_token != undefined}
     function create_if_block(ctx) {
     	let div0;
     	let p0;
@@ -2010,8 +2010,10 @@ message Message {
     	let t7;
     	let ul;
     	let t8;
-    	let p2;
+    	let button2;
     	let t10;
+    	let p2;
+    	let t12;
     	let div2;
     	let mounted;
     	let dispose;
@@ -2034,33 +2036,39 @@ message Message {
     			t7 = space();
     			ul = element("ul");
     			t8 = space();
+    			button2 = element("button");
+    			button2.textContent = "Copy to Clipboard";
+    			t10 = space();
     			p2 = element("p");
     			p2.textContent = "Your browser is now running an IPFS node, don't close it!";
-    			t10 = space();
+    			t12 = space();
     			div2 = element("div");
     			attr_dev(p0, "id", "imageCountInfo");
-    			add_location(p0, file, 251, 3, 7441);
+    			add_location(p0, file, 286, 3, 8621);
     			attr_dev(button0, "id", "selectAllButton");
     			attr_dev(button0, "type", "button");
     			attr_dev(button0, "class", "btn btn-secondary btn-rounded");
-    			add_location(button0, file, 252, 3, 7491);
+    			add_location(button0, file, 287, 3, 8671);
     			attr_dev(button1, "id", "uploadButton");
     			attr_dev(button1, "type", "button");
     			attr_dev(button1, "class", "btn btn-primary btn-rounded");
     			button1.disabled = true;
-    			add_location(button1, file, 253, 3, 7617);
+    			add_location(button1, file, 288, 3, 8797);
     			attr_dev(div0, "id", "uploadContainer");
-    			add_location(div0, file, 250, 2, 7410);
-    			add_location(p1, file, 273, 3, 8262);
+    			add_location(div0, file, 285, 2, 8590);
+    			add_location(p1, file, 308, 3, 9442);
     			attr_dev(ul, "id", "cidList");
     			attr_dev(ul, "class", "list-group list-group-flush svelte-nhn7eo");
-    			add_location(ul, file, 274, 3, 8299);
-    			add_location(p2, file, 277, 3, 8369);
+    			add_location(ul, file, 309, 3, 9479);
+    			attr_dev(button2, "type", "button");
+    			attr_dev(button2, "class", "btn btn-primary btn-rounded");
+    			add_location(button2, file, 312, 3, 9549);
+    			add_location(p2, file, 313, 3, 9661);
     			attr_dev(div1, "id", "resultsContainer");
     			set_style(div1, "display", "none");
-    			add_location(div1, file, 272, 2, 8209);
+    			add_location(div1, file, 307, 2, 9389);
     			attr_dev(div2, "id", "galleryContainer");
-    			add_location(div2, file, 279, 2, 8447);
+    			add_location(div2, file, 315, 2, 9739);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div0, anchor);
@@ -2075,14 +2083,17 @@ message Message {
     			append_dev(div1, t7);
     			append_dev(div1, ul);
     			append_dev(div1, t8);
+    			append_dev(div1, button2);
+    			append_dev(div1, t10);
     			append_dev(div1, p2);
-    			insert_dev(target, t10, anchor);
+    			insert_dev(target, t12, anchor);
     			insert_dev(target, div2, anchor);
 
     			if (!mounted) {
     				dispose = [
     					listen_dev(button0, "click", /*toggleAll*/ ctx[3], false, false, false),
-    					listen_dev(button1, "click", /*upload*/ ctx[2], false, false, false)
+    					listen_dev(button1, "click", /*upload*/ ctx[2], false, false, false),
+    					listen_dev(button2, "click", copyContent, false, false, false)
     				];
 
     				mounted = true;
@@ -2093,7 +2104,7 @@ message Message {
     			if (detaching) detach_dev(div0);
     			if (detaching) detach_dev(t5);
     			if (detaching) detach_dev(div1);
-    			if (detaching) detach_dev(t10);
+    			if (detaching) detach_dev(t12);
     			if (detaching) detach_dev(div2);
     			mounted = false;
     			run_all(dispose);
@@ -2104,7 +2115,7 @@ message Message {
     		block,
     		id: create_if_block.name,
     		type: "if",
-    		source: "(250:1) {#if parsed.access_token != undefined}",
+    		source: "(285:1) {#if parsed.access_token != undefined}",
     		ctx
     	});
 
@@ -2158,9 +2169,9 @@ message Message {
     			attr_dev(link3, "crossorigin", "anonymous");
     			add_location(link3, file, 4, 1, 435);
     			attr_dev(h1, "class", "mb-3 svelte-nhn7eo");
-    			add_location(h1, file, 245, 1, 7242);
+    			add_location(h1, file, 280, 1, 8422);
     			attr_dev(main, "class", "svelte-nhn7eo");
-    			add_location(main, file, 244, 0, 7233);
+    			add_location(main, file, 279, 0, 8413);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -2266,6 +2277,42 @@ message Message {
 
     function getAllImages() {
     	return document.getElementsByClassName("imgurImage");
+    }
+
+    function copyToClipboard(text) {
+    	console.log("Copying...");
+
+    	if (window.clipboardData && window.clipboardData.setData) {
+    		// Internet Explorer-specific code path to prevent textarea being shown while dialog is visible.
+    		return window.clipboardData.setData("Text", text);
+    	} else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
+    		var textarea = document.createElement("textarea");
+    		textarea.textContent = text;
+    		textarea.style.position = "fixed"; // Prevent scrolling to bottom of page in Microsoft Edge.
+    		document.body.appendChild(textarea);
+    		textarea.select();
+
+    		try {
+    			return document.execCommand("copy"); // Security exception may be thrown by some browsers.
+    		} catch(ex) {
+    			console.warn("Copy to clipboard failed.", ex);
+    			return false;
+    		} finally {
+    			document.body.removeChild(textarea);
+    		}
+    	}
+    }
+
+    function copyContent() {
+    	let listItems = document.getElementById("cidList").childNodes;
+    	let content = "";
+
+    	for (let i = 0; i < listItems.length; i++) {
+    		let item = listItems[i].innerHTML;
+    		content += item + "\n";
+    	}
+
+    	copyToClipboard(content);
     }
 
     function instance($$self, $$props, $$invalidate) {
@@ -2494,7 +2541,9 @@ message Message {
     		clientID,
     		imgurUrl,
     		loadImages,
-    		buildGallery
+    		buildGallery,
+    		copyToClipboard,
+    		copyContent
     	});
 
     	$$self.$inject_state = $$props => {
