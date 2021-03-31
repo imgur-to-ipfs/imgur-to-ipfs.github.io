@@ -8,7 +8,7 @@ import css from 'rollup-plugin-css-only';
 import ipfshttpclient from 'ipfs-http-client';
 
 
-const production = true;
+const production = !process.env.ROLLUP_WATCH;
 
 function serve() {
 	let server;
