@@ -2598,7 +2598,7 @@ message Message {
 
     const file = "src\\App.svelte";
 
-    // (332:1) {:else}
+    // (333:1) {:else}
     function create_else_block(ctx) {
     	let a;
     	let t;
@@ -2611,7 +2611,7 @@ message Message {
     			attr_dev(a, "class", "btn btn-primary");
     			attr_dev(a, "role", "button");
     			attr_dev(a, "rel", "noreferrer");
-    			add_location(a, file, 332, 2, 10372);
+    			add_location(a, file, 333, 2, 10457);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a, anchor);
@@ -2631,14 +2631,14 @@ message Message {
     		block,
     		id: create_else_block.name,
     		type: "else",
-    		source: "(332:1) {:else}",
+    		source: "(333:1) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (296:1) {#if parsed.access_token != undefined}
+    // (297:1) {#if parsed.access_token != undefined}
     function create_if_block(ctx) {
     	let p0;
     	let t1;
@@ -2679,26 +2679,26 @@ message Message {
     			t10 = space();
     			div1 = element("div");
     			attr_dev(p0, "id", "imageCountInfo");
-    			add_location(p0, file, 296, 2, 9051);
+    			add_location(p0, file, 297, 2, 9136);
     			attr_dev(button0, "id", "selectAllButton");
     			attr_dev(button0, "type", "button");
     			attr_dev(button0, "class", "btn btn-secondary btn-rounded");
-    			add_location(button0, file, 297, 2, 9100);
+    			add_location(button0, file, 298, 2, 9185);
     			attr_dev(button1, "id", "uploadButton");
     			attr_dev(button1, "type", "button");
     			attr_dev(button1, "class", "btn btn-primary btn-rounded");
     			button1.disabled = true;
-    			add_location(button1, file, 298, 2, 9225);
-    			add_location(p1, file, 316, 3, 9856);
+    			add_location(button1, file, 299, 2, 9310);
+    			add_location(p1, file, 317, 3, 9941);
     			attr_dev(ul, "id", "cidList");
     			attr_dev(ul, "class", "list-group list-group-flush");
-    			add_location(ul, file, 317, 3, 9893);
-    			add_location(p2, file, 320, 3, 9963);
+    			add_location(ul, file, 318, 3, 9978);
+    			add_location(p2, file, 321, 3, 10048);
     			attr_dev(div0, "id", "resultsContainer");
     			set_style(div0, "display", "none");
-    			add_location(div0, file, 315, 2, 9803);
+    			add_location(div0, file, 316, 2, 9888);
     			attr_dev(div1, "id", "galleryContainer");
-    			add_location(div1, file, 322, 2, 10041);
+    			add_location(div1, file, 323, 2, 10126);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, p0, anchor);
@@ -2745,7 +2745,7 @@ message Message {
     		block,
     		id: create_if_block.name,
     		type: "if",
-    		source: "(296:1) {#if parsed.access_token != undefined}",
+    		source: "(297:1) {#if parsed.access_token != undefined}",
     		ctx
     	});
 
@@ -2798,10 +2798,10 @@ message Message {
     			attr_dev(link3, "integrity", "sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX");
     			attr_dev(link3, "crossorigin", "anonymous");
     			add_location(link3, file, 17, 0, 954);
-    			attr_dev(h1, "class", "svelte-1n265be");
-    			add_location(h1, file, 291, 1, 8896);
-    			attr_dev(main, "class", "svelte-1n265be");
-    			add_location(main, file, 290, 0, 8887);
+    			attr_dev(h1, "class", "mb-3 svelte-ughmz4");
+    			add_location(h1, file, 292, 1, 8968);
+    			attr_dev(main, "class", "svelte-ughmz4");
+    			add_location(main, file, 291, 0, 8959);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -2900,6 +2900,7 @@ message Message {
     		}
 
     		document.getElementById("resultsContainer").style.display = "block";
+    		document.getElementById("galleryContainer").style.display = "none";
     	});
     }
 
