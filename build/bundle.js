@@ -2157,9 +2157,9 @@ message Message {
     			attr_dev(link3, "integrity", "sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX");
     			attr_dev(link3, "crossorigin", "anonymous");
     			add_location(link3, file, 4, 1, 435);
-    			attr_dev(h1, "class", "mb-3 svelte-ughmz4");
+    			attr_dev(h1, "class", "mb-3 svelte-i1dubt");
     			add_location(h1, file, 245, 1, 7242);
-    			attr_dev(main, "class", "svelte-ughmz4");
+    			attr_dev(main, "class", "svelte-i1dubt");
     			add_location(main, file, 244, 0, 7233);
     		},
     		l: function claim(nodes) {
