@@ -12,8 +12,7 @@
 
 	export let selectedImages = [];
 	export let imageURLs = [];
-	console.log("C");
-	
+
 
 	let accessToken = null;
 
@@ -28,6 +27,7 @@
 		// "m" means "medium thumbnail"
 		return thumbnailBase + "m." + thumbnailExtension;
 	}
+
 	function getOriginalURL(thumbnailURL) {
 		let thumbnailBase = thumbnailURL.split('.').slice(0, -1).join('.');
 		thumbnailBase = thumbnailBase.slice(0, -1)
@@ -35,6 +35,7 @@
 		return thumbnailBase + "." + thumbnailExtension;
 
 	}
+
 	function removeItemOnce(arr, value) {
 		var index = arr.indexOf(value);
 		if (index > -1) {
@@ -48,6 +49,7 @@
 			let list = document.getElementById("cidList");
 
 			let files = [];
+			console.log("Uploading from the following URLs:");
 			console.log(urls);
 			for (let i = 0; i < urls.length; i++) {
 				let image = await fetch(urls[i]);
@@ -64,7 +66,7 @@
 				element.className = "list-group-item";
 				list.appendChild(element);
 			}
-			
+
 			document.getElementById("resultsContainer").style.display = "block";
 			document.getElementById("galleryContainer").style.display = "none";
 			document.getElementById("uploadContainer").style.display = "none";
@@ -76,7 +78,6 @@
 		for (let i = 0; i < selectedImages.length; i++) {
 			selectedURLs.push(getOriginalURL(selectedImages[i].src));
 		}
-		console.log(selectedURLs);
 
 		uploadOnIPFS(selectedURLs);
 	}
@@ -109,12 +110,11 @@
 			updateCounter();
 		}
 	}
-	
+
 	function toggleImage(image) {
 		if (selectedImages.includes(image)) {
 			deselectImage(image);
-		}
-		else {
+		} else {
 			selectImage(image);
 		}
 	}
@@ -134,6 +134,7 @@
 			selectImage(allImages[i]);
 		}
 	}
+
 	function deselectAll() {
 		let allImages = getAllImages();
 		for (let i = 0; i < allImages.length; i++) {
@@ -144,11 +145,9 @@
 	function toggleAll(event) {
 		if (selectedImages.length < getAllImages().length) {
 			selectAll();
-		}
-		else {
+		} else {
 			deselectAll();
 		}
-		console.log(selectedImages);
 	}
 
 	export let parsed = {};
@@ -157,107 +156,100 @@
 	export let imgurUrl = `https://api.imgur.com/oauth2/authorize?client_id=${clientID}&response_type=token`;
 
 	if (typeof window !== 'undefined') {
-		console.log(window.location.href);
 		parsed = window.location.hash;
 		parsed = window.location.hash.replace("#", "?");
-		console.log(parsed);
 		parsed = queryString.parse(parsed);
 	}
 
 	function loadImages() {
-		fetch('https://api.imgur.com/3/account/me/images', { 
-			method: 'get', 
-			headers: new Headers({
-				'Authorization': `Bearer ${parsed.access_token}`
+		fetch('https://api.imgur.com/3/account/me/images', {
+				method: 'get',
+				headers: new Headers({
+					'Authorization': `Bearer ${parsed.access_token}`
+				})
 			})
-		})
-		.then(function(res) {
-			return res.json();
-		})
-		.then(function(resJson) {
-			console.log("4");
-			let data = resJson.data;
-			let thumbnailURLs = [];
-			for (let i = 0; i < data.length; i++) {
-				imageURLs.push(data[i].link);
-				thumbnailURLs.push(getThumbnailURL(data[i].link));
-			}
+			.then(function (res) {
+				return res.json();
+			})
+			.then(function (resJson) {
+				let data = resJson.data;
+				let thumbnailURLs = [];
+				for (let i = 0; i < data.length; i++) {
+					imageURLs.push(data[i].link);
+					thumbnailURLs.push(getThumbnailURL(data[i].link));
+				}
 
-			let gallery = buildGallery(thumbnailURLs, 400, 200, 5);
-			document.getElementById("galleryContainer").appendChild(gallery);
-			console.log(resJson);
-			return resJson;
-		});
+				let gallery = buildGallery(thumbnailURLs, 400, 200, 5);
+				document.getElementById("galleryContainer").appendChild(gallery);
+				return resJson;
+			});
 	}
 
-  function buildGallery(imgURLs, galleryWidth, maxColumnWidth, gap) {
-	let columnCount = parseInt(galleryWidth / maxColumnWidth) || 1;
-	let columns = [];
-	for (let i=0; i < columnCount; i++) {
-		columns.push([]);
-	}
-	// Fill the columns with image URLs
-	for (let i = 0; i<imgURLs.length; i++) {
-		const idx = i % columnCount;
-		columns[idx] = [...columns[idx] || [], imgURLs[i]];
-	}
-
-	let gallery = document.createElement("div");
-	//gallery.clientWidth = 10;
-	gallery.style = `grid-template-columns: repeat(${columnCount}, 1fr); --gap: ${gap}px`;
-	gallery.id = "gallery";
-
-	for (let i = 0; i < columnCount; i++) {
-		let column = document.createElement("column");
-		column.class = "column";
-
-		for (let j = 0; j < columns[i].length; j++) {
-			let url = columns[i][j];
-			let imageContainer = document.createElement("div");
-			imageContainer.className = "imageContainer";
-			imageContainer.style.backgroundColor = "white";
-			imageContainer.style.display = "inline-block";
-			let image = document.createElement("img");
-			image.src = url;
-			image.alt = "";
-			image.onclick = imageClicked;
-			image.style.opacity = "50%";
-			image.style.backgroundColor = "white";
-			image.className = "imgurImage";
-			imageContainer.appendChild(image);
-			column.appendChild(imageContainer);
+	function buildGallery(imgURLs, galleryWidth, maxColumnWidth, gap) {
+		let columnCount = parseInt(galleryWidth / maxColumnWidth) || 1;
+		let columns = [];
+		for (let i = 0; i < columnCount; i++) {
+			columns.push([]);
 		}
-		gallery.appendChild(column);
-	}
-	console.log(gallery);
-	return gallery;
-  }
+		// Fill the columns with image URLs
+		for (let i = 0; i < imgURLs.length; i++) {
+			const idx = i % columnCount;
+			columns[idx] = [...columns[idx] || [], imgURLs[i]];
+		}
 
-  	function copyToClipboard(text) {
-		console.log("Copying...");
+		let gallery = document.createElement("div");
+		//gallery.clientWidth = 10;
+		gallery.style = `grid-template-columns: repeat(${columnCount}, 1fr); --gap: ${gap}px`;
+		gallery.id = "gallery";
+
+		for (let i = 0; i < columnCount; i++) {
+			let column = document.createElement("column");
+			column.class = "column";
+
+			for (let j = 0; j < columns[i].length; j++) {
+				let url = columns[i][j];
+				let imageContainer = document.createElement("div");
+				imageContainer.className = "imageContainer";
+				imageContainer.style.backgroundColor = "white";
+				imageContainer.style.display = "inline-block";
+				let image = document.createElement("img");
+				image.src = url;
+				image.alt = "";
+				image.onclick = imageClicked;
+				image.style.opacity = "50%";
+				image.style.backgroundColor = "white";
+				image.className = "imgurImage";
+				imageContainer.appendChild(image);
+				column.appendChild(imageContainer);
+			}
+			gallery.appendChild(column);
+		}
+		return gallery;
+	}
+
+	function copyToClipboard(text) {
+		console.log("Copying to clipboard.");
 		if (window.clipboardData && window.clipboardData.setData) {
 			// Internet Explorer-specific code path to prevent textarea being shown while dialog is visible.
 			return window.clipboardData.setData("Text", text);
 
-		}
-		else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
+		} else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
 			var textarea = document.createElement("textarea");
 			textarea.textContent = text;
-			textarea.style.position = "fixed";  // Prevent scrolling to bottom of page in Microsoft Edge.
+			textarea.style.position = "fixed"; // Prevent scrolling to bottom of page in Microsoft Edge.
 			document.body.appendChild(textarea);
 			textarea.select();
 			try {
-				return document.execCommand("copy");  // Security exception may be thrown by some browsers.
-			}
-			catch (ex) {
+				return document.execCommand("copy"); // Security exception may be thrown by some browsers.
+			} catch (ex) {
 				console.warn("Copy to clipboard failed.", ex);
 				return false;
-			}
-			finally {
+			} finally {
 				document.body.removeChild(textarea);
 			}
 		}
 	}
+
 	function copyContent() {
 		let listItems = document.getElementById("cidList").childNodes;
 		let content = "";
@@ -268,42 +260,23 @@
 		copyToClipboard(content);
 	}
 
-  console.log(parsed);
-  if (parsed.access_token != undefined) {
-	  console.log("Loading images")
-	  loadImages();
-  }
+	console.log(parsed);
+	if (parsed.access_token != undefined) {
+		console.log("Loading images")
+		loadImages();
+	}
+
 
 </script>
 
 <main>
 	<h1 class="mb-3">Imgur to IPFS</h1>
-	<!--
-	<button type="button" class="btn btn-primary btn-rounded">Light</button>
-	-->
 	{#if parsed.access_token != undefined}
 		<div id="uploadContainer">
 			<p id="imageCountInfo">0 images selected.</p>
 			<button id="selectAllButton" type="button" class="btn btn-secondary btn-rounded" on:click={toggleAll}>Select all</button>
 			<button id="uploadButton" type="button" class="btn btn-primary btn-rounded" on:click={upload} disabled>Upload</button>
 		</div>
-		
-		<!--
-		<div id="uploadTool">
-			
-			<p>Upload to:</p>
-			<div>
-				<input type="radio" id="localhost" name="uploadTarget" value="localhost" checked>
-				<label for="localhost">localhost:</label>
-				<input type="text" id="localhostPort" value="8080">
-			</div>
-			<div>
-				<input type="radio" id="api" name="uploadTarget" value="api">
-				<label for="api">Custom URL:</label>
-				<input type="text" id="apiUrl">
-			</div>
-		</div>
-		-->
 		<div id="resultsContainer" style="display:none">
 			<p>Done! Here are your CIDs:</p>
 			<button type="button" class="btn btn-primary btn-rounded" on:click={copyContent}>Copy to Clipboard</button>
@@ -316,12 +289,6 @@
 		<div id="galleryContainer">
 
 		</div>
-		<!--{@html buildGallery(["https://i.imgur.com/B0gv74Cm.jpg"], 400, 200, 5)}-->
-		<!--
-			<Gallery gap="10" onclickEvent={imageClicked} imageClass="imgurImage">
-			<img src="https://i.imgur.com/B0gv74Cm.jpg" onclick="imageClicked" style="opacity:50%">
-		</Gallery>
-		-->
 	{:else}
 		<a href="{imgurUrl}" class="btn btn-primary" role="button" rel="noreferrer">Login with Imgur</a>
 	{/if}

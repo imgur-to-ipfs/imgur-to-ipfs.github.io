@@ -1951,7 +1951,7 @@ message Message {
     const { console: console_1, document: document_1 } = globals;
     const file = "src\\App.svelte";
 
-    // (325:1) {:else}
+    // (292:1) {:else}
     function create_else_block(ctx) {
     	let a;
     	let t;
@@ -1964,7 +1964,7 @@ message Message {
     			attr_dev(a, "class", "btn btn-primary");
     			attr_dev(a, "role", "button");
     			attr_dev(a, "rel", "noreferrer");
-    			add_location(a, file, 325, 2, 10043);
+    			add_location(a, file, 292, 2, 9103);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a, anchor);
@@ -1984,14 +1984,14 @@ message Message {
     		block,
     		id: create_else_block.name,
     		type: "else",
-    		source: "(325:1) {:else}",
+    		source: "(292:1) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (284:1) {#if parsed.access_token != undefined}
+    // (274:1) {#if parsed.access_token != undefined}
     function create_if_block(ctx) {
     	let div0;
     	let p0;
@@ -2041,32 +2041,32 @@ message Message {
     			t12 = space();
     			div3 = element("div");
     			attr_dev(p0, "id", "imageCountInfo");
-    			add_location(p0, file, 285, 3, 8573);
+    			add_location(p0, file, 275, 3, 8371);
     			attr_dev(button0, "id", "selectAllButton");
     			attr_dev(button0, "type", "button");
     			attr_dev(button0, "class", "btn btn-secondary btn-rounded");
-    			add_location(button0, file, 286, 3, 8623);
+    			add_location(button0, file, 276, 3, 8421);
     			attr_dev(button1, "id", "uploadButton");
     			attr_dev(button1, "type", "button");
     			attr_dev(button1, "class", "btn btn-primary btn-rounded");
     			button1.disabled = true;
-    			add_location(button1, file, 287, 3, 8749);
+    			add_location(button1, file, 277, 3, 8547);
     			attr_dev(div0, "id", "uploadContainer");
-    			add_location(div0, file, 284, 2, 8542);
-    			add_location(p1, file, 307, 3, 9394);
+    			add_location(div0, file, 274, 2, 8340);
+    			add_location(p1, file, 280, 3, 8732);
     			attr_dev(button2, "type", "button");
     			attr_dev(button2, "class", "btn btn-primary btn-rounded");
-    			add_location(button2, file, 308, 3, 9431);
+    			add_location(button2, file, 281, 3, 8769);
     			attr_dev(ul, "id", "cidList");
     			attr_dev(ul, "class", "list-group list-group-flush svelte-nhn7eo");
-    			add_location(ul, file, 310, 4, 9554);
-    			add_location(div1, file, 309, 3, 9543);
-    			add_location(p2, file, 313, 3, 9634);
+    			add_location(ul, file, 283, 4, 8892);
+    			add_location(div1, file, 282, 3, 8881);
+    			add_location(p2, file, 286, 3, 8972);
     			attr_dev(div2, "id", "resultsContainer");
     			set_style(div2, "display", "none");
-    			add_location(div2, file, 306, 2, 9341);
+    			add_location(div2, file, 279, 2, 8679);
     			attr_dev(div3, "id", "galleryContainer");
-    			add_location(div3, file, 315, 2, 9712);
+    			add_location(div3, file, 288, 2, 9050);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div0, anchor);
@@ -2114,7 +2114,7 @@ message Message {
     		block,
     		id: create_if_block.name,
     		type: "if",
-    		source: "(284:1) {#if parsed.access_token != undefined}",
+    		source: "(274:1) {#if parsed.access_token != undefined}",
     		ctx
     	});
 
@@ -2168,9 +2168,9 @@ message Message {
     			attr_dev(link3, "crossorigin", "anonymous");
     			add_location(link3, file, 4, 1, 435);
     			attr_dev(h1, "class", "mb-3 svelte-nhn7eo");
-    			add_location(h1, file, 279, 1, 8374);
+    			add_location(h1, file, 272, 1, 8260);
     			attr_dev(main, "class", "svelte-nhn7eo");
-    			add_location(main, file, 278, 0, 8365);
+    			add_location(main, file, 271, 0, 8251);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -2252,6 +2252,7 @@ message Message {
     	Ipfs.create().then(async function (node) {
     		let list = document.getElementById("cidList");
     		let files = [];
+    		console.log("Uploading from the following URLs:");
     		console.log(urls);
 
     		for (let i = 0; i < urls.length; i++) {
@@ -2279,7 +2280,7 @@ message Message {
     }
 
     function copyToClipboard(text) {
-    	console.log("Copying...");
+    	console.log("Copying to clipboard.");
 
     	if (window.clipboardData && window.clipboardData.setData) {
     		// Internet Explorer-specific code path to prevent textarea being shown while dialog is visible.
@@ -2319,7 +2320,6 @@ message Message {
     	validate_slots("App", slots, []);
     	let { selectedImages = [] } = $$props;
     	let { imageURLs = [] } = $$props;
-    	console.log("C");
     	let accessToken = null;
 
     	selectedImagesStore.subscribe(value => {
@@ -2335,7 +2335,6 @@ message Message {
     			selectedURLs.push(getOriginalURL(selectedImages[i].src));
     		}
 
-    		console.log(selectedURLs);
     		uploadOnIPFS(selectedURLs);
     	}
 
@@ -2404,8 +2403,6 @@ message Message {
     		} else {
     			deselectAll();
     		}
-
-    		console.log(selectedImages);
     	}
 
     	let { parsed = {} } = $$props;
@@ -2413,10 +2410,8 @@ message Message {
     	let { imgurUrl = `https://api.imgur.com/oauth2/authorize?client_id=${clientID}&response_type=token` } = $$props;
 
     	if (typeof window !== "undefined") {
-    		console.log(window.location.href);
     		parsed = window.location.hash;
     		parsed = window.location.hash.replace("#", "?");
-    		console.log(parsed);
     		parsed = queryString.parse(parsed);
     	}
 
@@ -2429,7 +2424,6 @@ message Message {
     		}).then(function (res) {
     			return res.json();
     		}).then(function (resJson) {
-    			console.log("4");
     			let data = resJson.data;
     			let thumbnailURLs = [];
 
@@ -2440,7 +2434,6 @@ message Message {
 
     			let gallery = buildGallery(thumbnailURLs, 400, 200, 5);
     			document.getElementById("galleryContainer").appendChild(gallery);
-    			console.log(resJson);
     			return resJson;
     		});
     	}
@@ -2490,7 +2483,6 @@ message Message {
     			gallery.appendChild(column);
     		}
 
-    		console.log(gallery);
     		return gallery;
     	}
 
