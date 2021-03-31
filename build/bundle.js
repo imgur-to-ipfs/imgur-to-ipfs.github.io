@@ -2598,7 +2598,7 @@ message Message {
 
     const file = "src\\App.svelte";
 
-    // (333:1) {:else}
+    // (337:1) {:else}
     function create_else_block(ctx) {
     	let a;
     	let t;
@@ -2611,7 +2611,7 @@ message Message {
     			attr_dev(a, "class", "btn btn-primary");
     			attr_dev(a, "role", "button");
     			attr_dev(a, "rel", "noreferrer");
-    			add_location(a, file, 333, 2, 10457);
+    			add_location(a, file, 337, 2, 10662);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a, anchor);
@@ -2631,14 +2631,14 @@ message Message {
     		block,
     		id: create_else_block.name,
     		type: "else",
-    		source: "(333:1) {:else}",
+    		source: "(337:1) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (297:1) {#if parsed.access_token != undefined}
+    // (301:1) {#if parsed.access_token != undefined}
     function create_if_block(ctx) {
     	let p0;
     	let t1;
@@ -2679,26 +2679,26 @@ message Message {
     			t10 = space();
     			div1 = element("div");
     			attr_dev(p0, "id", "imageCountInfo");
-    			add_location(p0, file, 297, 2, 9136);
+    			add_location(p0, file, 301, 2, 9341);
     			attr_dev(button0, "id", "selectAllButton");
     			attr_dev(button0, "type", "button");
     			attr_dev(button0, "class", "btn btn-secondary btn-rounded");
-    			add_location(button0, file, 298, 2, 9185);
+    			add_location(button0, file, 302, 2, 9390);
     			attr_dev(button1, "id", "uploadButton");
     			attr_dev(button1, "type", "button");
     			attr_dev(button1, "class", "btn btn-primary btn-rounded");
     			button1.disabled = true;
-    			add_location(button1, file, 299, 2, 9310);
-    			add_location(p1, file, 317, 3, 9941);
+    			add_location(button1, file, 303, 2, 9515);
+    			add_location(p1, file, 321, 3, 10146);
     			attr_dev(ul, "id", "cidList");
     			attr_dev(ul, "class", "list-group list-group-flush");
-    			add_location(ul, file, 318, 3, 9978);
-    			add_location(p2, file, 321, 3, 10048);
+    			add_location(ul, file, 322, 3, 10183);
+    			add_location(p2, file, 325, 3, 10253);
     			attr_dev(div0, "id", "resultsContainer");
     			set_style(div0, "display", "none");
-    			add_location(div0, file, 316, 2, 9888);
+    			add_location(div0, file, 320, 2, 10093);
     			attr_dev(div1, "id", "galleryContainer");
-    			add_location(div1, file, 323, 2, 10126);
+    			add_location(div1, file, 327, 2, 10331);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, p0, anchor);
@@ -2745,7 +2745,7 @@ message Message {
     		block,
     		id: create_if_block.name,
     		type: "if",
-    		source: "(297:1) {#if parsed.access_token != undefined}",
+    		source: "(301:1) {#if parsed.access_token != undefined}",
     		ctx
     	});
 
@@ -2799,9 +2799,9 @@ message Message {
     			attr_dev(link3, "crossorigin", "anonymous");
     			add_location(link3, file, 17, 0, 954);
     			attr_dev(h1, "class", "mb-3 svelte-ughmz4");
-    			add_location(h1, file, 292, 1, 8968);
+    			add_location(h1, file, 296, 1, 9173);
     			attr_dev(main, "class", "svelte-ughmz4");
-    			add_location(main, file, 291, 0, 8959);
+    			add_location(main, file, 295, 0, 9164);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -3097,6 +3097,9 @@ message Message {
 
     			for (let j = 0; j < columns[i].length; j++) {
     				let url = columns[i][j];
+    				let imageContainer = document.createElement("div");
+    				imageContainer.className = "imageContainer";
+    				imageContainer.style.backgroundColor = "white";
     				let image = document.createElement("img");
     				image.src = url;
     				image.alt = "";
@@ -3104,7 +3107,8 @@ message Message {
     				image.style.opacity = "50%";
     				image.style.backgroundColor = "white";
     				image.className = "imgurImage";
-    				column.appendChild(image);
+    				imageContainer.appendChild(image);
+    				column.appendChild(imageContainer);
     			}
 
     			gallery.appendChild(column);
