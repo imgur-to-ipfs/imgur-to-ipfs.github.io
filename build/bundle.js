@@ -2053,7 +2053,7 @@ message Message {
     			add_location(div0, file, 250, 2, 7410);
     			add_location(p1, file, 273, 3, 8262);
     			attr_dev(ul, "id", "cidList");
-    			attr_dev(ul, "class", "list-group list-group-flush");
+    			attr_dev(ul, "class", "list-group list-group-flush svelte-nhn7eo");
     			add_location(ul, file, 274, 3, 8299);
     			add_location(p2, file, 277, 3, 8369);
     			attr_dev(div1, "id", "resultsContainer");
@@ -2157,9 +2157,9 @@ message Message {
     			attr_dev(link3, "integrity", "sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX");
     			attr_dev(link3, "crossorigin", "anonymous");
     			add_location(link3, file, 4, 1, 435);
-    			attr_dev(h1, "class", "mb-3 svelte-i1dubt");
+    			attr_dev(h1, "class", "mb-3 svelte-nhn7eo");
     			add_location(h1, file, 245, 1, 7242);
-    			attr_dev(main, "class", "svelte-i1dubt");
+    			attr_dev(main, "class", "svelte-nhn7eo");
     			add_location(main, file, 244, 0, 7233);
     		},
     		l: function claim(nodes) {
