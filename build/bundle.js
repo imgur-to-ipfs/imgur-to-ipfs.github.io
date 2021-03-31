@@ -4,12 +4,6 @@ var app = (function () {
     'use strict';
 
     function noop() { }
-    function assign(tar, src) {
-        // @ts-ignore
-        for (const k in src)
-            tar[k] = src[k];
-        return tar;
-    }
     function add_location(element, file, line, column, char) {
         element.__svelte_meta = {
             loc: { file, line, column, char }
@@ -33,45 +27,6 @@ var app = (function () {
     function is_empty(obj) {
         return Object.keys(obj).length === 0;
     }
-    function create_slot(definition, ctx, $$scope, fn) {
-        if (definition) {
-            const slot_ctx = get_slot_context(definition, ctx, $$scope, fn);
-            return definition[0](slot_ctx);
-        }
-    }
-    function get_slot_context(definition, ctx, $$scope, fn) {
-        return definition[1] && fn
-            ? assign($$scope.ctx.slice(), definition[1](fn(ctx)))
-            : $$scope.ctx;
-    }
-    function get_slot_changes(definition, $$scope, dirty, fn) {
-        if (definition[2] && fn) {
-            const lets = definition[2](fn(dirty));
-            if ($$scope.dirty === undefined) {
-                return lets;
-            }
-            if (typeof lets === 'object') {
-                const merged = [];
-                const len = Math.max($$scope.dirty.length, lets.length);
-                for (let i = 0; i < len; i += 1) {
-                    merged[i] = $$scope.dirty[i] | lets[i];
-                }
-                return merged;
-            }
-            return $$scope.dirty | lets;
-        }
-        return $$scope.dirty;
-    }
-    function update_slot(slot, slot_definition, ctx, $$scope, dirty, get_slot_changes_fn, get_slot_context_fn) {
-        const slot_changes = get_slot_changes(slot_definition, $$scope, dirty, get_slot_changes_fn);
-        if (slot_changes) {
-            const slot_context = get_slot_context(slot_definition, ctx, $$scope, get_slot_context_fn);
-            slot.p(slot_context, slot_changes);
-        }
-    }
-    function null_to_empty(value) {
-        return value == null ? '' : value;
-    }
 
     function append(target, node) {
         target.appendChild(node);
@@ -82,12 +37,6 @@ var app = (function () {
     function detach(node) {
         node.parentNode.removeChild(node);
     }
-    function destroy_each(iterations, detaching) {
-        for (let i = 0; i < iterations.length; i += 1) {
-            if (iterations[i])
-                iterations[i].d(detaching);
-        }
-    }
     function element(name) {
         return document.createElement(name);
     }
@@ -96,9 +45,6 @@ var app = (function () {
     }
     function space() {
         return text(' ');
-    }
-    function empty() {
-        return text('');
     }
     function listen(node, event, handler, options) {
         node.addEventListener(event, handler, options);
@@ -116,59 +62,6 @@ var app = (function () {
     function set_style(node, key, value, important) {
         node.style.setProperty(key, value, important ? 'important' : '');
     }
-    // unfortunately this can't be a constant as that wouldn't be tree-shakeable
-    // so we cache the result instead
-    let crossorigin;
-    function is_crossorigin() {
-        if (crossorigin === undefined) {
-            crossorigin = false;
-            try {
-                if (typeof window !== 'undefined' && window.parent) {
-                    void window.parent.document;
-                }
-            }
-            catch (error) {
-                crossorigin = true;
-            }
-        }
-        return crossorigin;
-    }
-    function add_resize_listener(node, fn) {
-        const computed_style = getComputedStyle(node);
-        if (computed_style.position === 'static') {
-            node.style.position = 'relative';
-        }
-        const iframe = element('iframe');
-        iframe.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; width: 100%; height: 100%; ' +
-            'overflow: hidden; border: 0; opacity: 0; pointer-events: none; z-index: -1;');
-        iframe.setAttribute('aria-hidden', 'true');
-        iframe.tabIndex = -1;
-        const crossorigin = is_crossorigin();
-        let unsubscribe;
-        if (crossorigin) {
-            iframe.src = "data:text/html,<script>onresize=function(){parent.postMessage(0,'*')}</script>";
-            unsubscribe = listen(window, 'message', (event) => {
-                if (event.source === iframe.contentWindow)
-                    fn();
-            });
-        }
-        else {
-            iframe.src = 'about:blank';
-            iframe.onload = () => {
-                unsubscribe = listen(iframe.contentWindow, 'resize', fn);
-            };
-        }
-        append(node, iframe);
-        return () => {
-            if (crossorigin) {
-                unsubscribe();
-            }
-            else if (unsubscribe && iframe.contentWindow) {
-                unsubscribe();
-            }
-            detach(iframe);
-        };
-    }
     function custom_event(type, detail) {
         const e = document.createEvent('CustomEvent');
         e.initCustomEvent(type, false, false, detail);
@@ -178,14 +71,6 @@ var app = (function () {
     let current_component;
     function set_current_component(component) {
         current_component = component;
-    }
-    function get_current_component() {
-        if (!current_component)
-            throw new Error('Function called outside component initialization');
-        return current_component;
-    }
-    function onMount(fn) {
-        get_current_component().$$.on_mount.push(fn);
     }
 
     const dirty_components = [];
@@ -252,27 +137,10 @@ var app = (function () {
         }
     }
     const outroing = new Set();
-    let outros;
     function transition_in(block, local) {
         if (block && block.i) {
             outroing.delete(block);
             block.i(local);
-        }
-    }
-    function transition_out(block, local, detach, callback) {
-        if (block && block.o) {
-            if (outroing.has(block))
-                return;
-            outroing.add(block);
-            outros.c.push(() => {
-                outroing.delete(block);
-                if (callback) {
-                    if (detach)
-                        block.d(1);
-                    callback();
-                }
-            });
-            block.o(local);
         }
     }
 
@@ -440,15 +308,6 @@ var app = (function () {
         else
             dispatch_dev('SvelteDOMSetAttribute', { node, attribute, value });
     }
-    function validate_each_argument(arg) {
-        if (typeof arg !== 'string' && !(arg && typeof arg === 'object' && 'length' in arg)) {
-            let msg = '{#each} only iterates over array-like objects.';
-            if (typeof Symbol === 'function' && arg && Symbol.iterator in arg) {
-                msg += ' You can use a spread to convert this iterable into an array.';
-            }
-            throw new Error(msg);
-        }
-    }
     function validate_slots(name, slot, keys) {
         for (const slot_key of Object.keys(slot)) {
             if (!~keys.indexOf(slot_key)) {
@@ -474,506 +333,6 @@ var app = (function () {
         }
         $capture_state() { }
         $inject_state() { }
-    }
-
-    /* src\Gallery.svelte generated by Svelte v3.35.0 */
-    const file$1 = "src\\Gallery.svelte";
-
-    function get_each_context(ctx, list, i) {
-    	const child_ctx = ctx.slice();
-    	child_ctx[14] = list[i];
-    	return child_ctx;
-    }
-
-    function get_each_context_1(ctx, list, i) {
-    	const child_ctx = ctx.slice();
-    	child_ctx[17] = list[i];
-    	return child_ctx;
-    }
-
-    // (35:0) {#if columns}
-    function create_if_block$1(ctx) {
-    	let div;
-    	let div_resize_listener;
-    	let each_value = /*columns*/ ctx[4];
-    	validate_each_argument(each_value);
-    	let each_blocks = [];
-
-    	for (let i = 0; i < each_value.length; i += 1) {
-    		each_blocks[i] = create_each_block(get_each_context(ctx, each_value, i));
-    	}
-
-    	const block = {
-    		c: function create() {
-    			div = element("div");
-
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].c();
-    			}
-
-    			attr_dev(div, "id", "gallery");
-    			attr_dev(div, "style", /*galleryStyle*/ ctx[5]);
-    			attr_dev(div, "class", "svelte-yhfi2h");
-    			add_render_callback(() => /*div_elementresize_handler*/ ctx[13].call(div));
-    			add_location(div, file$1, 35, 0, 1054);
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, div, anchor);
-
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(div, null);
-    			}
-
-    			div_resize_listener = add_resize_listener(div, /*div_elementresize_handler*/ ctx[13].bind(div));
-    		},
-    		p: function update(ctx, dirty) {
-    			if (dirty & /*columns, imageClass, onclickEvent*/ 19) {
-    				each_value = /*columns*/ ctx[4];
-    				validate_each_argument(each_value);
-    				let i;
-
-    				for (i = 0; i < each_value.length; i += 1) {
-    					const child_ctx = get_each_context(ctx, each_value, i);
-
-    					if (each_blocks[i]) {
-    						each_blocks[i].p(child_ctx, dirty);
-    					} else {
-    						each_blocks[i] = create_each_block(child_ctx);
-    						each_blocks[i].c();
-    						each_blocks[i].m(div, null);
-    					}
-    				}
-
-    				for (; i < each_blocks.length; i += 1) {
-    					each_blocks[i].d(1);
-    				}
-
-    				each_blocks.length = each_value.length;
-    			}
-
-    			if (dirty & /*galleryStyle*/ 32) {
-    				attr_dev(div, "style", /*galleryStyle*/ ctx[5]);
-    			}
-    		},
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(div);
-    			destroy_each(each_blocks, detaching);
-    			div_resize_listener();
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_if_block$1.name,
-    		type: "if",
-    		source: "(35:0) {#if columns}",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (39:8) {#each column as url}
-    function create_each_block_1(ctx) {
-    	let img;
-    	let img_src_value;
-    	let img_class_value;
-    	let mounted;
-    	let dispose;
-
-    	const block = {
-    		c: function create() {
-    			img = element("img");
-    			if (img.src !== (img_src_value = /*url*/ ctx[17])) attr_dev(img, "src", img_src_value);
-    			attr_dev(img, "alt", "");
-    			set_style(img, "opacity", "50%");
-    			attr_dev(img, "class", img_class_value = "" + (null_to_empty(/*imageClass*/ ctx[1]) + " svelte-yhfi2h"));
-    			add_location(img, file$1, 39, 8, 1223);
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, img, anchor);
-
-    			if (!mounted) {
-    				dispose = listen_dev(
-    					img,
-    					"click",
-    					function () {
-    						if (is_function(/*onclickEvent*/ ctx[0])) /*onclickEvent*/ ctx[0].apply(this, arguments);
-    					},
-    					false,
-    					false,
-    					false
-    				);
-
-    				mounted = true;
-    			}
-    		},
-    		p: function update(new_ctx, dirty) {
-    			ctx = new_ctx;
-
-    			if (dirty & /*columns*/ 16 && img.src !== (img_src_value = /*url*/ ctx[17])) {
-    				attr_dev(img, "src", img_src_value);
-    			}
-
-    			if (dirty & /*imageClass*/ 2 && img_class_value !== (img_class_value = "" + (null_to_empty(/*imageClass*/ ctx[1]) + " svelte-yhfi2h"))) {
-    				attr_dev(img, "class", img_class_value);
-    			}
-    		},
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(img);
-    			mounted = false;
-    			dispose();
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_each_block_1.name,
-    		type: "each",
-    		source: "(39:8) {#each column as url}",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (37:4) {#each columns as column}
-    function create_each_block(ctx) {
-    	let div;
-    	let t;
-    	let each_value_1 = /*column*/ ctx[14];
-    	validate_each_argument(each_value_1);
-    	let each_blocks = [];
-
-    	for (let i = 0; i < each_value_1.length; i += 1) {
-    		each_blocks[i] = create_each_block_1(get_each_context_1(ctx, each_value_1, i));
-    	}
-
-    	const block = {
-    		c: function create() {
-    			div = element("div");
-
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].c();
-    			}
-
-    			t = space();
-    			attr_dev(div, "class", "column svelte-yhfi2h");
-    			add_location(div, file$1, 37, 4, 1162);
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, div, anchor);
-
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(div, null);
-    			}
-
-    			append_dev(div, t);
-    		},
-    		p: function update(ctx, dirty) {
-    			if (dirty & /*columns, imageClass, onclickEvent*/ 19) {
-    				each_value_1 = /*column*/ ctx[14];
-    				validate_each_argument(each_value_1);
-    				let i;
-
-    				for (i = 0; i < each_value_1.length; i += 1) {
-    					const child_ctx = get_each_context_1(ctx, each_value_1, i);
-
-    					if (each_blocks[i]) {
-    						each_blocks[i].p(child_ctx, dirty);
-    					} else {
-    						each_blocks[i] = create_each_block_1(child_ctx);
-    						each_blocks[i].c();
-    						each_blocks[i].m(div, t);
-    					}
-    				}
-
-    				for (; i < each_blocks.length; i += 1) {
-    					each_blocks[i].d(1);
-    				}
-
-    				each_blocks.length = each_value_1.length;
-    			}
-    		},
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(div);
-    			destroy_each(each_blocks, detaching);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_each_block.name,
-    		type: "each",
-    		source: "(37:4) {#each columns as column}",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    function create_fragment$1(ctx) {
-    	let div;
-    	let t;
-    	let if_block_anchor;
-    	let current;
-    	let mounted;
-    	let dispose;
-    	const default_slot_template = /*#slots*/ ctx[11].default;
-    	const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[10], null);
-    	let if_block = /*columns*/ ctx[4] && create_if_block$1(ctx);
-
-    	const block = {
-    		c: function create() {
-    			div = element("div");
-    			if (default_slot) default_slot.c();
-    			t = space();
-    			if (if_block) if_block.c();
-    			if_block_anchor = empty();
-    			attr_dev(div, "id", "slotHolder");
-    			attr_dev(div, "class", "svelte-yhfi2h");
-    			add_location(div, file$1, 30, 0, 938);
-    		},
-    		l: function claim(nodes) {
-    			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, div, anchor);
-
-    			if (default_slot) {
-    				default_slot.m(div, null);
-    			}
-
-    			/*div_binding*/ ctx[12](div);
-    			insert_dev(target, t, anchor);
-    			if (if_block) if_block.m(target, anchor);
-    			insert_dev(target, if_block_anchor, anchor);
-    			current = true;
-
-    			if (!mounted) {
-    				dispose = listen_dev(div, "DOMNodeInserted", /*Draw*/ ctx[6], false, false, false);
-    				mounted = true;
-    			}
-    		},
-    		p: function update(ctx, [dirty]) {
-    			if (default_slot) {
-    				if (default_slot.p && dirty & /*$$scope*/ 1024) {
-    					update_slot(default_slot, default_slot_template, ctx, /*$$scope*/ ctx[10], dirty, null, null);
-    				}
-    			}
-
-    			if (/*columns*/ ctx[4]) {
-    				if (if_block) {
-    					if_block.p(ctx, dirty);
-    				} else {
-    					if_block = create_if_block$1(ctx);
-    					if_block.c();
-    					if_block.m(if_block_anchor.parentNode, if_block_anchor);
-    				}
-    			} else if (if_block) {
-    				if_block.d(1);
-    				if_block = null;
-    			}
-    		},
-    		i: function intro(local) {
-    			if (current) return;
-    			transition_in(default_slot, local);
-    			current = true;
-    		},
-    		o: function outro(local) {
-    			transition_out(default_slot, local);
-    			current = false;
-    		},
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(div);
-    			if (default_slot) default_slot.d(detaching);
-    			/*div_binding*/ ctx[12](null);
-    			if (detaching) detach_dev(t);
-    			if (if_block) if_block.d(detaching);
-    			if (detaching) detach_dev(if_block_anchor);
-    			mounted = false;
-    			dispose();
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_fragment$1.name,
-    		type: "component",
-    		source: "",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    function instance$1($$self, $$props, $$invalidate) {
-    	let galleryStyle;
-    	let { $$slots: slots = {}, $$scope } = $$props;
-    	validate_slots("Gallery", slots, ['default']);
-    	let { gap = 10 } = $$props;
-    	let { maxColumnWidth = 250 } = $$props;
-    	let { onclickEvent = "" } = $$props;
-    	let { imageClass = "" } = $$props;
-    	let slotHolder = null;
-    	let columns = [];
-    	let galleryWidth = 0;
-    	let columnCount = 0;
-    	onMount(Draw);
-
-    	function Draw() {
-    		if (!slotHolder) {
-    			return;
-    		}
-
-    		const images = Array.from(slotHolder.childNodes).filter(child => child.tagName === "IMG");
-    		$$invalidate(4, columns = []);
-
-    		// Fill the columns with image URLs
-    		for (let i = 0; i < images.length; i++) {
-    			const idx = i % columnCount;
-    			$$invalidate(4, columns[idx] = [...columns[idx] || [], images[i].src], columns);
-    		}
-    	}
-
-    	const writable_props = ["gap", "maxColumnWidth", "onclickEvent", "imageClass"];
-
-    	Object.keys($$props).forEach(key => {
-    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console.warn(`<Gallery> was created with unknown prop '${key}'`);
-    	});
-
-    	function div_binding($$value) {
-    		binding_callbacks[$$value ? "unshift" : "push"](() => {
-    			slotHolder = $$value;
-    			$$invalidate(3, slotHolder);
-    		});
-    	}
-
-    	function div_elementresize_handler() {
-    		galleryWidth = this.clientWidth;
-    		$$invalidate(2, galleryWidth);
-    	}
-
-    	$$self.$$set = $$props => {
-    		if ("gap" in $$props) $$invalidate(7, gap = $$props.gap);
-    		if ("maxColumnWidth" in $$props) $$invalidate(8, maxColumnWidth = $$props.maxColumnWidth);
-    		if ("onclickEvent" in $$props) $$invalidate(0, onclickEvent = $$props.onclickEvent);
-    		if ("imageClass" in $$props) $$invalidate(1, imageClass = $$props.imageClass);
-    		if ("$$scope" in $$props) $$invalidate(10, $$scope = $$props.$$scope);
-    	};
-
-    	$$self.$capture_state = () => ({
-    		onMount,
-    		gap,
-    		maxColumnWidth,
-    		onclickEvent,
-    		imageClass,
-    		slotHolder,
-    		columns,
-    		galleryWidth,
-    		columnCount,
-    		Draw,
-    		galleryStyle
-    	});
-
-    	$$self.$inject_state = $$props => {
-    		if ("gap" in $$props) $$invalidate(7, gap = $$props.gap);
-    		if ("maxColumnWidth" in $$props) $$invalidate(8, maxColumnWidth = $$props.maxColumnWidth);
-    		if ("onclickEvent" in $$props) $$invalidate(0, onclickEvent = $$props.onclickEvent);
-    		if ("imageClass" in $$props) $$invalidate(1, imageClass = $$props.imageClass);
-    		if ("slotHolder" in $$props) $$invalidate(3, slotHolder = $$props.slotHolder);
-    		if ("columns" in $$props) $$invalidate(4, columns = $$props.columns);
-    		if ("galleryWidth" in $$props) $$invalidate(2, galleryWidth = $$props.galleryWidth);
-    		if ("columnCount" in $$props) $$invalidate(9, columnCount = $$props.columnCount);
-    		if ("galleryStyle" in $$props) $$invalidate(5, galleryStyle = $$props.galleryStyle);
-    	};
-
-    	if ($$props && "$$inject" in $$props) {
-    		$$self.$inject_state($$props.$$inject);
-    	}
-
-    	$$self.$$.update = () => {
-    		if ($$self.$$.dirty & /*galleryWidth, maxColumnWidth*/ 260) {
-    			$$invalidate(9, columnCount = parseInt(galleryWidth / maxColumnWidth) || 1);
-    		}
-
-    		if ($$self.$$.dirty & /*columnCount*/ 512) {
-    			columnCount && Draw();
-    		}
-
-    		if ($$self.$$.dirty & /*columnCount, gap*/ 640) {
-    			$$invalidate(5, galleryStyle = `grid-template-columns: repeat(${columnCount}, 1fr); --gap: ${gap}px`);
-    		}
-    	};
-
-    	return [
-    		onclickEvent,
-    		imageClass,
-    		galleryWidth,
-    		slotHolder,
-    		columns,
-    		galleryStyle,
-    		Draw,
-    		gap,
-    		maxColumnWidth,
-    		columnCount,
-    		$$scope,
-    		slots,
-    		div_binding,
-    		div_elementresize_handler
-    	];
-    }
-
-    class Gallery extends SvelteComponentDev {
-    	constructor(options) {
-    		super(options);
-
-    		init(this, options, instance$1, create_fragment$1, safe_not_equal, {
-    			gap: 7,
-    			maxColumnWidth: 8,
-    			onclickEvent: 0,
-    			imageClass: 1
-    		});
-
-    		dispatch_dev("SvelteRegisterComponent", {
-    			component: this,
-    			tagName: "Gallery",
-    			options,
-    			id: create_fragment$1.name
-    		});
-    	}
-
-    	get gap() {
-    		throw new Error("<Gallery>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-    	}
-
-    	set gap(value) {
-    		throw new Error("<Gallery>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-    	}
-
-    	get maxColumnWidth() {
-    		throw new Error("<Gallery>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-    	}
-
-    	set maxColumnWidth(value) {
-    		throw new Error("<Gallery>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-    	}
-
-    	get onclickEvent() {
-    		throw new Error("<Gallery>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-    	}
-
-    	set onclickEvent(value) {
-    		throw new Error("<Gallery>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-    	}
-
-    	get imageClass() {
-    		throw new Error("<Gallery>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-    	}
-
-    	set imageClass(value) {
-    		throw new Error("<Gallery>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-    	}
     }
 
     function createCommonjsModule(fn) {
@@ -2595,10 +1954,9 @@ message Message {
     /* src\App.svelte generated by Svelte v3.35.0 */
 
     const { console: console_1, document: document_1 } = globals;
-
     const file = "src\\App.svelte";
 
-    // (338:1) {:else}
+    // (289:1) {:else}
     function create_else_block(ctx) {
     	let a;
     	let t;
@@ -2611,7 +1969,7 @@ message Message {
     			attr_dev(a, "class", "btn btn-primary");
     			attr_dev(a, "role", "button");
     			attr_dev(a, "rel", "noreferrer");
-    			add_location(a, file, 338, 2, 10713);
+    			add_location(a, file, 289, 2, 8778);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a, anchor);
@@ -2631,34 +1989,36 @@ message Message {
     		block,
     		id: create_else_block.name,
     		type: "else",
-    		source: "(338:1) {:else}",
+    		source: "(289:1) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (302:1) {#if parsed.access_token != undefined}
+    // (250:1) {#if parsed.access_token != undefined}
     function create_if_block(ctx) {
+    	let div0;
     	let p0;
     	let t1;
     	let button0;
     	let t3;
     	let button1;
     	let t5;
-    	let div0;
+    	let div1;
     	let p1;
     	let t7;
     	let ul;
     	let t8;
     	let p2;
     	let t10;
-    	let div1;
+    	let div2;
     	let mounted;
     	let dispose;
 
     	const block = {
     		c: function create() {
+    			div0 = element("div");
     			p0 = element("p");
     			p0.textContent = "0 images selected.";
     			t1 = space();
@@ -2668,7 +2028,7 @@ message Message {
     			button1 = element("button");
     			button1.textContent = "Upload";
     			t5 = space();
-    			div0 = element("div");
+    			div1 = element("div");
     			p1 = element("p");
     			p1.textContent = "Done! Here are your CIDs:";
     			t7 = space();
@@ -2677,44 +2037,47 @@ message Message {
     			p2 = element("p");
     			p2.textContent = "Your browser is now running an IPFS node, don't close it!";
     			t10 = space();
-    			div1 = element("div");
+    			div2 = element("div");
     			attr_dev(p0, "id", "imageCountInfo");
-    			add_location(p0, file, 302, 2, 9392);
+    			add_location(p0, file, 251, 3, 7441);
     			attr_dev(button0, "id", "selectAllButton");
     			attr_dev(button0, "type", "button");
     			attr_dev(button0, "class", "btn btn-secondary btn-rounded");
-    			add_location(button0, file, 303, 2, 9441);
+    			add_location(button0, file, 252, 3, 7491);
     			attr_dev(button1, "id", "uploadButton");
     			attr_dev(button1, "type", "button");
     			attr_dev(button1, "class", "btn btn-primary btn-rounded");
     			button1.disabled = true;
-    			add_location(button1, file, 304, 2, 9566);
-    			add_location(p1, file, 322, 3, 10197);
+    			add_location(button1, file, 253, 3, 7617);
+    			attr_dev(div0, "id", "uploadContainer");
+    			add_location(div0, file, 250, 2, 7410);
+    			add_location(p1, file, 273, 3, 8262);
     			attr_dev(ul, "id", "cidList");
     			attr_dev(ul, "class", "list-group list-group-flush");
-    			add_location(ul, file, 323, 3, 10234);
-    			add_location(p2, file, 326, 3, 10304);
-    			attr_dev(div0, "id", "resultsContainer");
-    			set_style(div0, "display", "none");
-    			add_location(div0, file, 321, 2, 10144);
-    			attr_dev(div1, "id", "galleryContainer");
-    			add_location(div1, file, 328, 2, 10382);
+    			add_location(ul, file, 274, 3, 8299);
+    			add_location(p2, file, 277, 3, 8369);
+    			attr_dev(div1, "id", "resultsContainer");
+    			set_style(div1, "display", "none");
+    			add_location(div1, file, 272, 2, 8209);
+    			attr_dev(div2, "id", "galleryContainer");
+    			add_location(div2, file, 279, 2, 8447);
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, p0, anchor);
-    			insert_dev(target, t1, anchor);
-    			insert_dev(target, button0, anchor);
-    			insert_dev(target, t3, anchor);
-    			insert_dev(target, button1, anchor);
-    			insert_dev(target, t5, anchor);
     			insert_dev(target, div0, anchor);
-    			append_dev(div0, p1);
-    			append_dev(div0, t7);
-    			append_dev(div0, ul);
-    			append_dev(div0, t8);
-    			append_dev(div0, p2);
-    			insert_dev(target, t10, anchor);
+    			append_dev(div0, p0);
+    			append_dev(div0, t1);
+    			append_dev(div0, button0);
+    			append_dev(div0, t3);
+    			append_dev(div0, button1);
+    			insert_dev(target, t5, anchor);
     			insert_dev(target, div1, anchor);
+    			append_dev(div1, p1);
+    			append_dev(div1, t7);
+    			append_dev(div1, ul);
+    			append_dev(div1, t8);
+    			append_dev(div1, p2);
+    			insert_dev(target, t10, anchor);
+    			insert_dev(target, div2, anchor);
 
     			if (!mounted) {
     				dispose = [
@@ -2727,15 +2090,11 @@ message Message {
     		},
     		p: noop,
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(p0);
-    			if (detaching) detach_dev(t1);
-    			if (detaching) detach_dev(button0);
-    			if (detaching) detach_dev(t3);
-    			if (detaching) detach_dev(button1);
-    			if (detaching) detach_dev(t5);
     			if (detaching) detach_dev(div0);
-    			if (detaching) detach_dev(t10);
+    			if (detaching) detach_dev(t5);
     			if (detaching) detach_dev(div1);
+    			if (detaching) detach_dev(t10);
+    			if (detaching) detach_dev(div2);
     			mounted = false;
     			run_all(dispose);
     		}
@@ -2745,7 +2104,7 @@ message Message {
     		block,
     		id: create_if_block.name,
     		type: "if",
-    		source: "(302:1) {#if parsed.access_token != undefined}",
+    		source: "(250:1) {#if parsed.access_token != undefined}",
     		ctx
     	});
 
@@ -2789,19 +2148,19 @@ message Message {
     			attr_dev(link1, "rel", "stylesheet");
     			attr_dev(link1, "integrity", "sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6");
     			attr_dev(link1, "crossorigin", "anonymous");
-    			add_location(link1, file, 9, 1, 340);
+    			add_location(link1, file, 2, 1, 105);
     			attr_dev(link2, "rel", "stylesheet");
     			attr_dev(link2, "href", "https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons");
-    			add_location(link2, file, 16, 1, 844);
+    			add_location(link2, file, 3, 1, 324);
     			attr_dev(link3, "rel", "stylesheet");
     			attr_dev(link3, "href", "https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css");
     			attr_dev(link3, "integrity", "sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX");
     			attr_dev(link3, "crossorigin", "anonymous");
-    			add_location(link3, file, 17, 0, 954);
+    			add_location(link3, file, 4, 1, 435);
     			attr_dev(h1, "class", "mb-3 svelte-ughmz4");
-    			add_location(h1, file, 297, 1, 9224);
+    			add_location(h1, file, 245, 1, 7242);
     			attr_dev(main, "class", "svelte-ughmz4");
-    			add_location(main, file, 296, 0, 9215);
+    			add_location(main, file, 244, 0, 7233);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -2858,7 +2217,7 @@ message Message {
     	let thumbnailBase = imageURL.split(".").slice(0, -1).join(".");
     	let thumbnailExtension = imageURL.split(".").slice(-1)[0];
 
-    	// "l" means "large thumbnail"
+    	// "m" means "medium thumbnail"
     	return thumbnailBase + "m." + thumbnailExtension;
     }
 
@@ -2886,7 +2245,7 @@ message Message {
     		console.log(urls);
 
     		for (let i = 0; i < urls.length; i++) {
-    			let image = await fetch(urls[i], {}); //"mode" : "no-cors"
+    			let image = await fetch(urls[i]);
     			let content = { content: await image.blob() };
     			files.push(content);
     		}
@@ -2901,6 +2260,7 @@ message Message {
 
     		document.getElementById("resultsContainer").style.display = "block";
     		document.getElementById("galleryContainer").style.display = "none";
+    		document.getElementById("uploadContainer").style.display = "none";
     	});
     }
 
@@ -2911,21 +2271,9 @@ message Message {
     function instance($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots("App", slots, []);
-    	let { name } = $$props;
     	let { selectedImages = [] } = $$props;
     	let { imageURLs = [] } = $$props;
-
-    	/*console.log(getRoot);
-    console.log(window.Ipfs);
-    let Ipfs = window.Ipfs;
-    console.log("A");
-    const node = Ipfs.create();
-    console.log("B");
-    console.log(node);*/
-    	//node.version().then(value => console.log("Value: " + value));
-    	//Ipfs.create().then(node => node.version()).then(value => console.log("Value " + value));
     	console.log("C");
-
     	let accessToken = null;
 
     	selectedImagesStore.subscribe(value => {
@@ -3026,28 +2374,12 @@ message Message {
     		parsed = queryString.parse(parsed);
     	}
 
-    	/*function getImages(requestedURLs) {
-    	let imageContent = "";
-    	for (let i = 0; i < requestedURLs.length; i++) {
-    		imageContent += `<img src=\"${requestedURLs[i]}\" onclick=\"imageClicked\" style=\"opacity:50%\">\n`;
-    	}
-
-    	console.log(imageContent);
-    	return imageContent;
-    }*/
     	function loadImages() {
     		fetch("https://api.imgur.com/3/account/me/images", {
     			method: "get",
     			headers: new Headers({
     					"Authorization": `Bearer ${parsed.access_token}`
-    				}), //"referrer" : "api.imgur.com",
-    			/*"Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Credentials": "true",
-    "Access-Control-Allow-Methods": "OPTIONS, GET, POST",
-    "Access-Control-Allow-Headers": "Content-Type, Depth, User-Agent, X-File-Size, X-Requested-With, If-Modified-Since, X-File-Name, Cache-Control"
-    	*/
-    			//'Content-Type': 'application/x-www-form-urlencoded'
-    			
+    				})
     		}).then(function (res) {
     			return res.json();
     		}).then(function (resJson) {
@@ -3060,10 +2392,7 @@ message Message {
     				thumbnailURLs.push(getThumbnailURL(data[i].link));
     			}
 
-    			//document.getElementById("gallery").innerHTML = getImages(thumbnailURLs);
-    			//let gallery = buildGallery(["https://i.imgur.com/B0gv74Cm.jpg", "https://i.imgur.com/B0gv74Cm.jpg", "https://i.imgur.com/B0gv74Cm.jpg", "https://i.imgur.com/B0gv74Cm.jpg"], 400, 200, 10);
     			let gallery = buildGallery(thumbnailURLs, 400, 200, 5);
-
     			document.getElementById("galleryContainer").appendChild(gallery);
     			console.log(resJson);
     			return resJson;
@@ -3126,23 +2455,20 @@ message Message {
     		loadImages();
     	}
 
-    	const writable_props = ["name", "selectedImages", "imageURLs", "parsed", "imgurUrl"];
+    	const writable_props = ["selectedImages", "imageURLs", "parsed", "imgurUrl"];
 
     	Object.keys($$props).forEach(key => {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console_1.warn(`<App> was created with unknown prop '${key}'`);
     	});
 
     	$$self.$$set = $$props => {
-    		if ("name" in $$props) $$invalidate(5, name = $$props.name);
     		if ("selectedImages" in $$props) $$invalidate(4, selectedImages = $$props.selectedImages);
-    		if ("imageURLs" in $$props) $$invalidate(6, imageURLs = $$props.imageURLs);
+    		if ("imageURLs" in $$props) $$invalidate(5, imageURLs = $$props.imageURLs);
     		if ("parsed" in $$props) $$invalidate(0, parsed = $$props.parsed);
     		if ("imgurUrl" in $$props) $$invalidate(1, imgurUrl = $$props.imgurUrl);
     	};
 
     	$$self.$capture_state = () => ({
-    		name,
-    		Gallery,
     		queryString,
     		selectedImagesStore,
     		getRoot,
@@ -3172,9 +2498,8 @@ message Message {
     	});
 
     	$$self.$inject_state = $$props => {
-    		if ("name" in $$props) $$invalidate(5, name = $$props.name);
     		if ("selectedImages" in $$props) $$invalidate(4, selectedImages = $$props.selectedImages);
-    		if ("imageURLs" in $$props) $$invalidate(6, imageURLs = $$props.imageURLs);
+    		if ("imageURLs" in $$props) $$invalidate(5, imageURLs = $$props.imageURLs);
     		if ("accessToken" in $$props) accessToken = $$props.accessToken;
     		if ("parsed" in $$props) $$invalidate(0, parsed = $$props.parsed);
     		if ("clientID" in $$props) clientID = $$props.clientID;
@@ -3185,16 +2510,7 @@ message Message {
     		$$self.$inject_state($$props.$$inject);
     	}
 
-    	return [
-    		parsed,
-    		imgurUrl,
-    		upload,
-    		toggleAll,
-    		selectedImages,
-    		name,
-    		imageURLs,
-    		imageClicked
-    	];
+    	return [parsed, imgurUrl, upload, toggleAll, selectedImages, imageURLs, imageClicked];
     }
 
     class App extends SvelteComponentDev {
@@ -3202,10 +2518,9 @@ message Message {
     		super(options);
 
     		init(this, options, instance, create_fragment, safe_not_equal, {
-    			name: 5,
     			selectedImages: 4,
-    			imageURLs: 6,
-    			imageClicked: 7,
+    			imageURLs: 5,
+    			imageClicked: 6,
     			parsed: 0,
     			imgurUrl: 1
     		});
@@ -3216,21 +2531,6 @@ message Message {
     			options,
     			id: create_fragment.name
     		});
-
-    		const { ctx } = this.$$;
-    		const props = options.props || {};
-
-    		if (/*name*/ ctx[5] === undefined && !("name" in props)) {
-    			console_1.warn("<App> was created without expected prop 'name'");
-    		}
-    	}
-
-    	get name() {
-    		throw new Error("<App>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-    	}
-
-    	set name(value) {
-    		throw new Error("<App>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
 
     	get selectedImages() {
@@ -3250,7 +2550,7 @@ message Message {
     	}
 
     	get imageClicked() {
-    		return this.$$.ctx[7];
+    		return this.$$.ctx[6];
     	}
 
     	set imageClicked(value) {
