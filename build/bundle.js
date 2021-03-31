@@ -1953,7 +1953,7 @@ message Message {
     const { console: console_1, document: document_1 } = globals;
     const file = "src\\App.svelte";
 
-    // (324:1) {:else}
+    // (325:1) {:else}
     function create_else_block(ctx) {
     	let a;
     	let t;
@@ -1966,7 +1966,7 @@ message Message {
     			attr_dev(a, "class", "btn btn-primary");
     			attr_dev(a, "role", "button");
     			attr_dev(a, "rel", "noreferrer");
-    			add_location(a, file, 324, 2, 10022);
+    			add_location(a, file, 325, 2, 10043);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a, anchor);
@@ -1986,7 +1986,7 @@ message Message {
     		block,
     		id: create_else_block.name,
     		type: "else",
-    		source: "(324:1) {:else}",
+    		source: "(325:1) {:else}",
     		ctx
     	});
 
@@ -2002,16 +2002,17 @@ message Message {
     	let t3;
     	let button1;
     	let t5;
-    	let div1;
+    	let div2;
     	let p1;
     	let t7;
-    	let ul;
-    	let t8;
     	let button2;
+    	let t9;
+    	let div1;
+    	let ul;
     	let t10;
     	let p2;
     	let t12;
-    	let div2;
+    	let div3;
     	let mounted;
     	let dispose;
 
@@ -2027,19 +2028,20 @@ message Message {
     			button1 = element("button");
     			button1.textContent = "Upload";
     			t5 = space();
-    			div1 = element("div");
+    			div2 = element("div");
     			p1 = element("p");
     			p1.textContent = "Done! Here are your CIDs:";
     			t7 = space();
-    			ul = element("ul");
-    			t8 = space();
     			button2 = element("button");
     			button2.textContent = "Copy to Clipboard";
+    			t9 = space();
+    			div1 = element("div");
+    			ul = element("ul");
     			t10 = space();
     			p2 = element("p");
     			p2.textContent = "Your browser is now running an IPFS node, don't close it!";
     			t12 = space();
-    			div2 = element("div");
+    			div3 = element("div");
     			attr_dev(p0, "id", "imageCountInfo");
     			add_location(p0, file, 285, 3, 8573);
     			attr_dev(button0, "id", "selectAllButton");
@@ -2054,18 +2056,19 @@ message Message {
     			attr_dev(div0, "id", "uploadContainer");
     			add_location(div0, file, 284, 2, 8542);
     			add_location(p1, file, 307, 3, 9394);
-    			attr_dev(ul, "id", "cidList");
-    			attr_dev(ul, "class", "list-group list-group-flush svelte-nhn7eo");
-    			add_location(ul, file, 308, 3, 9431);
     			attr_dev(button2, "type", "button");
     			attr_dev(button2, "class", "btn btn-primary btn-rounded");
-    			add_location(button2, file, 311, 3, 9501);
-    			add_location(p2, file, 312, 3, 9613);
-    			attr_dev(div1, "id", "resultsContainer");
-    			set_style(div1, "display", "none");
-    			add_location(div1, file, 306, 2, 9341);
-    			attr_dev(div2, "id", "galleryContainer");
-    			add_location(div2, file, 314, 2, 9691);
+    			add_location(button2, file, 308, 3, 9431);
+    			attr_dev(ul, "id", "cidList");
+    			attr_dev(ul, "class", "list-group list-group-flush svelte-nhn7eo");
+    			add_location(ul, file, 310, 4, 9554);
+    			add_location(div1, file, 309, 3, 9543);
+    			add_location(p2, file, 313, 3, 9634);
+    			attr_dev(div2, "id", "resultsContainer");
+    			set_style(div2, "display", "none");
+    			add_location(div2, file, 306, 2, 9341);
+    			attr_dev(div3, "id", "galleryContainer");
+    			add_location(div3, file, 315, 2, 9712);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div0, anchor);
@@ -2075,16 +2078,17 @@ message Message {
     			append_dev(div0, t3);
     			append_dev(div0, button1);
     			insert_dev(target, t5, anchor);
-    			insert_dev(target, div1, anchor);
-    			append_dev(div1, p1);
-    			append_dev(div1, t7);
-    			append_dev(div1, ul);
-    			append_dev(div1, t8);
-    			append_dev(div1, button2);
-    			append_dev(div1, t10);
-    			append_dev(div1, p2);
-    			insert_dev(target, t12, anchor);
     			insert_dev(target, div2, anchor);
+    			append_dev(div2, p1);
+    			append_dev(div2, t7);
+    			append_dev(div2, button2);
+    			append_dev(div2, t9);
+    			append_dev(div2, div1);
+    			append_dev(div1, ul);
+    			append_dev(div2, t10);
+    			append_dev(div2, p2);
+    			insert_dev(target, t12, anchor);
+    			insert_dev(target, div3, anchor);
 
     			if (!mounted) {
     				dispose = [
@@ -2100,9 +2104,9 @@ message Message {
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div0);
     			if (detaching) detach_dev(t5);
-    			if (detaching) detach_dev(div1);
-    			if (detaching) detach_dev(t12);
     			if (detaching) detach_dev(div2);
+    			if (detaching) detach_dev(t12);
+    			if (detaching) detach_dev(div3);
     			mounted = false;
     			run_all(dispose);
     		}
