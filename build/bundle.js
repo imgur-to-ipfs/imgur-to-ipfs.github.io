@@ -1951,7 +1951,7 @@ message Message {
     const { console: console_1, document: document_1 } = globals;
     const file = "src\\App.svelte";
 
-    // (325:1) {:else}
+    // (326:1) {:else}
     function create_else_block(ctx) {
     	let a;
     	let t;
@@ -1964,7 +1964,7 @@ message Message {
     			attr_dev(a, "class", "btn btn-primary");
     			attr_dev(a, "role", "button");
     			attr_dev(a, "rel", "noreferrer");
-    			add_location(a, file, 325, 2, 10043);
+    			add_location(a, file, 326, 2, 10079);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a, anchor);
@@ -1984,14 +1984,14 @@ message Message {
     		block,
     		id: create_else_block.name,
     		type: "else",
-    		source: "(325:1) {:else}",
+    		source: "(326:1) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (284:1) {#if parsed.access_token != undefined}
+    // (285:1) {#if parsed.access_token != undefined}
     function create_if_block(ctx) {
     	let div0;
     	let p0;
@@ -2041,32 +2041,32 @@ message Message {
     			t12 = space();
     			div3 = element("div");
     			attr_dev(p0, "id", "imageCountInfo");
-    			add_location(p0, file, 285, 3, 8573);
+    			add_location(p0, file, 286, 3, 8609);
     			attr_dev(button0, "id", "selectAllButton");
     			attr_dev(button0, "type", "button");
     			attr_dev(button0, "class", "btn btn-secondary btn-rounded");
-    			add_location(button0, file, 286, 3, 8623);
+    			add_location(button0, file, 287, 3, 8659);
     			attr_dev(button1, "id", "uploadButton");
     			attr_dev(button1, "type", "button");
     			attr_dev(button1, "class", "btn btn-primary btn-rounded");
     			button1.disabled = true;
-    			add_location(button1, file, 287, 3, 8749);
+    			add_location(button1, file, 288, 3, 8785);
     			attr_dev(div0, "id", "uploadContainer");
-    			add_location(div0, file, 284, 2, 8542);
-    			add_location(p1, file, 307, 3, 9394);
+    			add_location(div0, file, 285, 2, 8578);
+    			add_location(p1, file, 308, 3, 9430);
     			attr_dev(button2, "type", "button");
     			attr_dev(button2, "class", "btn btn-primary btn-rounded");
-    			add_location(button2, file, 308, 3, 9431);
+    			add_location(button2, file, 309, 3, 9467);
     			attr_dev(ul, "id", "cidList");
     			attr_dev(ul, "class", "list-group list-group-flush svelte-nhn7eo");
-    			add_location(ul, file, 310, 4, 9554);
-    			add_location(div1, file, 309, 3, 9543);
-    			add_location(p2, file, 313, 3, 9634);
+    			add_location(ul, file, 311, 4, 9590);
+    			add_location(div1, file, 310, 3, 9579);
+    			add_location(p2, file, 314, 3, 9670);
     			attr_dev(div2, "id", "resultsContainer");
     			set_style(div2, "display", "none");
-    			add_location(div2, file, 306, 2, 9341);
+    			add_location(div2, file, 307, 2, 9377);
     			attr_dev(div3, "id", "galleryContainer");
-    			add_location(div3, file, 315, 2, 9712);
+    			add_location(div3, file, 316, 2, 9748);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div0, anchor);
@@ -2114,7 +2114,7 @@ message Message {
     		block,
     		id: create_if_block.name,
     		type: "if",
-    		source: "(284:1) {#if parsed.access_token != undefined}",
+    		source: "(285:1) {#if parsed.access_token != undefined}",
     		ctx
     	});
 
@@ -2168,9 +2168,9 @@ message Message {
     			attr_dev(link3, "crossorigin", "anonymous");
     			add_location(link3, file, 4, 1, 435);
     			attr_dev(h1, "class", "mb-3 svelte-nhn7eo");
-    			add_location(h1, file, 279, 1, 8374);
+    			add_location(h1, file, 280, 1, 8410);
     			attr_dev(main, "class", "svelte-nhn7eo");
-    			add_location(main, file, 278, 0, 8365);
+    			add_location(main, file, 279, 0, 8401);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -2317,6 +2317,7 @@ message Message {
     function instance($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots("App", slots, []);
+    	document.title = "Imgur to IPFS";
     	let { selectedImages = [] } = $$props;
     	let { imageURLs = [] } = $$props;
     	console.log("C");
