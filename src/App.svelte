@@ -1,45 +1,17 @@
 <svelte:head>
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
-	<!-- Google Fonts -->
-	<!--
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
-	-->
-	
-	<!-- Bootstrap core CSS -->
-	<!--<link href="bootstrap.min.css" rel="style" />-->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
-	<!--<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">-->
-	<!-- Material Design Bootstrap -->
-	<!--
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.16.0/css/mdb.min.css" rel="stylesheet">
-	-->
-	
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
-<link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
 </svelte:head>
 
 <script>
-	export let name;
-	import Gallery from './Gallery.svelte';
 	import queryString from "query-string";
 	import {selectedImagesStore} from './stores.js'
-	import {getRoot} from './ipfs.js'
-	//import ipfshttpclient from '@rollup/ipfshttpclient';
-	//import imgur from "imgur";
-import { text } from 'svelte/internal';
+	import {} from './ipfs.js'
 
 	export let selectedImages = [];
 	export let imageURLs = [];
-
-	/*console.log(getRoot);
-	console.log(window.Ipfs);
-	let Ipfs = window.Ipfs;
-	console.log("A");
-	const node = Ipfs.create();
-	console.log("B");
-	console.log(node);*/
-	//node.version().then(value => console.log("Value: " + value));
-	//Ipfs.create().then(node => node.version()).then(value => console.log("Value " + value));
 	console.log("C");
 	
 
@@ -50,12 +22,10 @@ import { text } from 'svelte/internal';
 	})
 	selectedImages = [];
 
-	//export let selectedImages = [];
-
 	function getThumbnailURL(imageURL) {
 		let thumbnailBase = imageURL.split('.').slice(0, -1).join('.');
 		let thumbnailExtension = imageURL.split('.').slice(-1)[0];
-		// "l" means "large thumbnail"
+		// "m" means "medium thumbnail"
 		return thumbnailBase + "m." + thumbnailExtension;
 	}
 	function getOriginalURL(thumbnailURL) {
@@ -80,10 +50,7 @@ import { text } from 'svelte/internal';
 			let files = [];
 			console.log(urls);
 			for (let i = 0; i < urls.length; i++) {
-				let image = await fetch(urls[i],
-				{
-					//"mode" : "no-cors"
-				});
+				let image = await fetch(urls[i]);
 				let content = {
 					content: (await image.blob())
 				};
@@ -99,6 +66,8 @@ import { text } from 'svelte/internal';
 			}
 			
 			document.getElementById("resultsContainer").style.display = "block";
+			document.getElementById("galleryContainer").style.display = "none";
+			document.getElementById("uploadContainer").style.display = "none";
 		});
 	}
 
@@ -195,30 +164,11 @@ import { text } from 'svelte/internal';
 		parsed = queryString.parse(parsed);
 	}
 
-	/*function getImages(requestedURLs) {
-		let imageContent = "";
-		for (let i = 0; i < requestedURLs.length; i++) {
-			imageContent += `<img src=\"${requestedURLs[i]}\" onclick=\"imageClicked\" style=\"opacity:50%\">\n`;
-		}
-
-		console.log(imageContent);
-		return imageContent;
-	}*/
-
-	
-
 	function loadImages() {
 		fetch('https://api.imgur.com/3/account/me/images', { 
 			method: 'get', 
 			headers: new Headers({
 				'Authorization': `Bearer ${parsed.access_token}`
-				//"referrer" : "api.imgur.com",
-				/*"Access-Control-Allow-Origin": "*",
-				"Access-Control-Allow-Credentials": "true",
-				"Access-Control-Allow-Methods": "OPTIONS, GET, POST",
-				"Access-Control-Allow-Headers": "Content-Type, Depth, User-Agent, X-File-Size, X-Requested-With, If-Modified-Since, X-File-Name, Cache-Control"
-	*/
-				//'Content-Type': 'application/x-www-form-urlencoded'
 			})
 		})
 		.then(function(res) {
@@ -233,8 +183,6 @@ import { text } from 'svelte/internal';
 				thumbnailURLs.push(getThumbnailURL(data[i].link));
 			}
 
-			//document.getElementById("gallery").innerHTML = getImages(thumbnailURLs);
-			//let gallery = buildGallery(["https://i.imgur.com/B0gv74Cm.jpg", "https://i.imgur.com/B0gv74Cm.jpg", "https://i.imgur.com/B0gv74Cm.jpg", "https://i.imgur.com/B0gv74Cm.jpg"], 400, 200, 10);
 			let gallery = buildGallery(thumbnailURLs, 400, 200, 5);
 			document.getElementById("galleryContainer").appendChild(gallery);
 			console.log(resJson);
@@ -265,6 +213,10 @@ import { text } from 'svelte/internal';
 
 		for (let j = 0; j < columns[i].length; j++) {
 			let url = columns[i][j];
+			let imageContainer = document.createElement("div");
+			imageContainer.className = "imageContainer";
+			imageContainer.style.backgroundColor = "white";
+			imageContainer.style.display = "inline-block";
 			let image = document.createElement("img");
 			image.src = url;
 			image.alt = "";
@@ -272,7 +224,8 @@ import { text } from 'svelte/internal';
 			image.style.opacity = "50%";
 			image.style.backgroundColor = "white";
 			image.className = "imgurImage";
-			column.appendChild(image);
+			imageContainer.appendChild(image);
+			column.appendChild(imageContainer);
 		}
 		gallery.appendChild(column);
 	}
@@ -280,7 +233,42 @@ import { text } from 'svelte/internal';
 	return gallery;
   }
 
-console.log(parsed);
+  	function copyToClipboard(text) {
+		console.log("Copying...");
+		if (window.clipboardData && window.clipboardData.setData) {
+			// Internet Explorer-specific code path to prevent textarea being shown while dialog is visible.
+			return window.clipboardData.setData("Text", text);
+
+		}
+		else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
+			var textarea = document.createElement("textarea");
+			textarea.textContent = text;
+			textarea.style.position = "fixed";  // Prevent scrolling to bottom of page in Microsoft Edge.
+			document.body.appendChild(textarea);
+			textarea.select();
+			try {
+				return document.execCommand("copy");  // Security exception may be thrown by some browsers.
+			}
+			catch (ex) {
+				console.warn("Copy to clipboard failed.", ex);
+				return false;
+			}
+			finally {
+				document.body.removeChild(textarea);
+			}
+		}
+	}
+	function copyContent() {
+		let listItems = document.getElementById("cidList").childNodes;
+		let content = "";
+		for (let i = 0; i < listItems.length; i++) {
+			let item = listItems[i].innerHTML;
+			content += item + "\n";
+		}
+		copyToClipboard(content);
+	}
+
+  console.log(parsed);
   if (parsed.access_token != undefined) {
 	  console.log("Loading images")
 	  loadImages();
@@ -289,14 +277,17 @@ console.log(parsed);
 </script>
 
 <main>
-	<h1>Imgur to IPFS</h1>
+	<h1 class="mb-3">Imgur to IPFS</h1>
 	<!--
 	<button type="button" class="btn btn-primary btn-rounded">Light</button>
 	-->
 	{#if parsed.access_token != undefined}
-		<p id="imageCountInfo">0 images selected.</p>
-		<button id="selectAllButton" type="button" class="btn btn-secondary btn-rounded" on:click={toggleAll}>Select all</button>
-		<button id="uploadButton" type="button" class="btn btn-primary btn-rounded" on:click={upload} disabled>Upload</button>
+		<div id="uploadContainer">
+			<p id="imageCountInfo">0 images selected.</p>
+			<button id="selectAllButton" type="button" class="btn btn-secondary btn-rounded" on:click={toggleAll}>Select all</button>
+			<button id="uploadButton" type="button" class="btn btn-primary btn-rounded" on:click={upload} disabled>Upload</button>
+		</div>
+		
 		<!--
 		<div id="uploadTool">
 			
@@ -315,9 +306,11 @@ console.log(parsed);
 		-->
 		<div id="resultsContainer" style="display:none">
 			<p>Done! Here are your CIDs:</p>
-			<ul id="cidList" class="list-group list-group-flush">
-
-			</ul>
+			<button type="button" class="btn btn-primary btn-rounded" on:click={copyContent}>Copy to Clipboard</button>
+			<div>
+				<ul id="cidList" class="list-group list-group-flush">
+				</ul>
+			</div>
 			<p>Your browser is now running an IPFS node, don't close it!</p>
 		</div>
 		<div id="galleryContainer">
@@ -343,7 +336,6 @@ console.log(parsed);
 	}
 
 	h1 {
-		color: #ff3e00;
 		text-transform: uppercase;
 		font-size: 4em;
 		font-weight: 100;
@@ -356,5 +348,9 @@ console.log(parsed);
 	}
 	:global(img) { opacity: .9; transition: all .2s }
 	:global(img):hover { opacity: 1; transform: scale(1.04) }
+
+	#cidList {
+		display:inline-block;
+	}
 
 </style>
